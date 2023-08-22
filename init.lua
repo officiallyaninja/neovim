@@ -13,60 +13,63 @@ function lazy.install(path)
     })
   end
 end
+
 function lazy.setup(plugins)
   -- You can "comment out" the line below after lazy.nvim is installed
   -- lazy.install(lazy.path)
   vim.opt.rtp:prepend(lazy.path)
   require('lazy').setup(plugins, lazy.opts)
 end
+
 lazy.path = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
 lazy.opts = {}
 
 lazy.setup({
-  {'navarasu/onedark.nvim'},
-  {'folke/tokyonight.nvim'},
-  {'nvim-lualine/lualine.nvim'},
-  {'nvim-tree/nvim-web-devicons'},
-  {'prichrd/netrw.nvim'},
-  {'karb94/neoscroll.nvim'},
+  { 'navarasu/onedark.nvim' },
+  { 'folke/tokyonight.nvim' },
+  { 'nvim-lualine/lualine.nvim' },
+  { 'nvim-tree/nvim-web-devicons' },
+  { 'prichrd/netrw.nvim' },
+  { 'karb94/neoscroll.nvim' },
   { "lukas-reineke/indent-blankline.nvim" },
-  {'tpope/vim-repeat'},
-  {'nvim-lua/plenary.nvim'},
+  { 'tpope/vim-repeat' },
+  { 'nvim-lua/plenary.nvim' },
   {
     'nvim-telescope/telescope.nvim',
     tag = '0.1.2',
     dependencies = { 'nvim-lua/plenary.nvim' }
   },
-  { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
+  { 'nvim-telescope/telescope-fzf-native.nvim',   build = 'make' },
   {
     "kylechui/nvim-surround",
     version = "*", -- Use for stability; omit to use `main` branch for the latest features
     event = "VeryLazy",
     config = function()
-        require("nvim-surround").setup({
-            -- Configuration here, or leave empty to use defaults
-        })
+      require("nvim-surround").setup({
+        -- Configuration here, or leave empty to use defaults
+      })
     end
   },
-  {'moll/vim-bbye'},
-  {'wellle/targets.vim'},
-  {'ggandor/leap.nvim'},
-  {'nvim-treesitter/nvim-treesitter', build = ':TSUpdate' },
-  {'HiPhish/nvim-ts-rainbow2'},
-  {'nvim-treesitter/nvim-treesitter-textobjects'},
-  {'williamboman/mason.nvim'},
-  {'stevearc/oil.nvim'},
-  {'neovim/nvim-lspconfig'},
-  {'hrsh7th/nvim-cmp'},
-  {'hrsh7th/cmp-buffer'},
-  {'hrsh7th/cmp-path'},
-  {'hrsh7th/cmp-nvim-lsp'},
-  {'L3MON4D3/LuaSnip'},
-  {'saadparwaiz1/cmp_luasnip'},
-  {'rafamadriz/friendly-snippets'},
-  {'williamboman/mason-lspconfig.nvim'},
-  {'kosayoda/nvim-lightbulb'},
-  {'stevearc/dressing.nvim'},
+  { 'moll/vim-bbye' },
+  { 'wellle/targets.vim' },
+  { 'ggandor/leap.nvim' },
+  { 'nvim-treesitter/nvim-treesitter',            build = ':TSUpdate' },
+  { 'HiPhish/nvim-ts-rainbow2' },
+  { 'nvim-treesitter/nvim-treesitter-textobjects' },
+  { 'williamboman/mason.nvim' },
+  { 'stevearc/oil.nvim' },
+  { 'neovim/nvim-lspconfig' },
+  { 'hrsh7th/nvim-cmp' },
+  { 'hrsh7th/cmp-buffer' },
+  { 'hrsh7th/cmp-path' },
+  { 'hrsh7th/cmp-nvim-lsp' },
+  { 'L3MON4D3/LuaSnip' },
+  { 'saadparwaiz1/cmp_luasnip' },
+  { 'rafamadriz/friendly-snippets' },
+  { 'williamboman/mason-lspconfig.nvim' },
+  { 'kosayoda/nvim-lightbulb' },
+  { 'stevearc/dressing.nvim' },
+  { 'cohama/lexima.vim' },
 })
 
 --user settings files
@@ -80,13 +83,13 @@ require('nvim-web-devicons').setup()
 require('netrw').setup()
 require('lualine').setup()
 require('onedark').setup {
-    style = 'cool'
+  style = 'cool'
 }
 require('onedark').load()
 require('neoscroll').setup()
 require("oil").setup()
 
--- more configured 
+-- more configured
 require("nvim-lightbulb").setup({
   autocmd = { enabled = true }
 })
@@ -111,7 +114,7 @@ vim.cmd [[highlight IndentBlanklineContextStart guisp=#C678DD gui=underline]]
 
 local actions = require "telescope.actions"
 
-require('telescope').setup{
+require('telescope').setup {
   defaults = {
     -- Default configuration for telescope goes here:
     -- config_key = value,
@@ -184,6 +187,9 @@ require('nvim-treesitter.configs').setup {
 
 -- lsp stuff
 
+
+vim.cmd [[autocmd BufWritePre * lua vim.lsp.buf.format()]] -- format on save
+
 local lspconfig = require('lspconfig')
 local lsp_defaults = lspconfig.util.default_config
 
@@ -193,15 +199,15 @@ lsp_defaults.capabilities = vim.tbl_deep_extend(
   require('cmp_nvim_lsp').default_capabilities()
 )
 
-require'lspconfig'.lua_ls.setup {
-    -- ... other configs
-    settings = {
-        Lua = {
-            diagnostics = {
-                globals = { 'vim' }
-            }
-        }
+require 'lspconfig'.lua_ls.setup {
+  -- ... other configs
+  settings = {
+    Lua = {
+      diagnostics = {
+        globals = { 'vim' }
+      }
     }
+  }
 }
 lspconfig.rust_analyzer.setup {}
 require('luasnip.loaders.from_vscode').lazy_load()
@@ -214,14 +220,18 @@ local sign = function(opts)
   })
 end
 
-sign({name = 'DiagnosticSignError', text = '✘'})
-sign({name = 'DiagnosticSignWarn', text = '▲'})
-sign({name = 'DiagnosticSignHint', text = '⚑'})
-sign({name = 'DiagnosticSignInfo', text = ''})
+sign({ name = 'DiagnosticSignError', text = '✘' })
+sign({ name = 'DiagnosticSignWarn', text = '▲' })
+sign({ name = 'DiagnosticSignHint', text = '⚑' })
+sign({ name = 'DiagnosticSignInfo', text = '' })
 vim.diagnostic.config({
-  virtual_text = true,
+  virtual_text = {
+    severity = { min = vim.diagnostic.severity.ERROR }
+  },
   severity_sort = true,
-  underline = true,
+  underline = {
+    severity = vim.diagnostic.severity.WARN
+  },
   update_in_insert = false,
   float = {
     border = 'rounded',
@@ -232,7 +242,7 @@ vim.diagnostic.config({
 
 local cmp = require('cmp')
 local luasnip = require('luasnip')
-local select_opts = {behavior = cmp.SelectBehavior.Select}
+local select_opts = { behavior = cmp.SelectBehavior.Select }
 
 cmp.setup({
   snippet = {
@@ -241,16 +251,16 @@ cmp.setup({
     end
   },
   sources = {
-    {name = 'path'},
-    {name = 'nvim_lsp', keyword_length = 1},
-    {name = 'buffer', keyword_length = 3},
-    {name = 'luasnip', keyword_length = 2},
+    { name = 'path' },
+    { name = 'nvim_lsp', keyword_length = 1 },
+    { name = 'buffer',   keyword_length = 3 },
+    { name = 'luasnip',  keyword_length = 2 },
   },
   window = {
     documentation = cmp.config.window.bordered()
   },
   formatting = {
-    fields = {'menu', 'abbr', 'kind'},
+    fields = { 'menu', 'abbr', 'kind' },
     format = function(entry, item)
       local menu_icon = {
         nvim_lsp = 'λ',
@@ -262,7 +272,7 @@ cmp.setup({
       return item
     end,
   },
-   mapping = {
+  mapping = {
     ['<Up>'] = cmp.mapping.select_prev_item(select_opts),
     ['<Down>'] = cmp.mapping.select_next_item(select_opts),
 
@@ -270,15 +280,15 @@ cmp.setup({
     ['<C-d>'] = cmp.mapping.scroll_docs(4),
 
     ['<C-e>'] = cmp.mapping.abort(),
-    ['<CR>'] = cmp.mapping.confirm({select = true}),
-    ['<Tab>'] = cmp.mapping.confirm({select = true}),
+    ['<CR>'] = cmp.mapping.confirm({ select = true }),
+    ['<Tab>'] = cmp.mapping.confirm({ select = true }),
     ['<C-l>'] = cmp.mapping(function(fallback)
       if luasnip.jumpable(1) then
         luasnip.jump(1)
       else
         -- fallback()
       end
-    end, {'i', 's'}),
+    end, { 'i', 's' }),
 
     ['<C-h>'] = cmp.mapping(function(fallback)
       if luasnip.jumpable(-1) then
@@ -286,7 +296,7 @@ cmp.setup({
       else
         -- fallback()
       end
-    end, {'i', 's'}),
+    end, { 'i', 's' }),
 
     ['<C-j>'] = cmp.mapping(function(fallback)
       local col = vim.fn.col('.') - 1
@@ -298,7 +308,7 @@ cmp.setup({
       else
         cmp.complete()
       end
-    end, {'i', 's'}),
+    end, { 'i', 's' }),
 
     ['<C-k>'] = cmp.mapping(function(fallback)
       if cmp.visible() then
@@ -306,7 +316,7 @@ cmp.setup({
       else
         fallback()
       end
-    end, {'i', 's'}),
+    end, { 'i', 's' }),
 
   }
 })
@@ -321,11 +331,11 @@ vim.opt.breakindent = true
 vim.opt.tabstop = 2
 vim.opt.shiftwidth = 2
 vim.opt.expandtab = true -- change later? idk doesn't really matter
-vim.opt.completeopt = {'menu', 'menuone', 'noselect'}
+vim.opt.completeopt = { 'menu', 'menuone', 'noselect' }
 
 vim.api.nvim_create_autocmd('TextYankPost', {
   callback = function(event)
-    vim.highlight.on_yank({higroup = 'Visual', timeout = 200})
+    vim.highlight.on_yank({ higroup = 'Visual', timeout = 200 })
   end
 })
 
@@ -343,7 +353,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
   desc = 'LSP actions',
   callback = function()
     local bufmap = function(mode, lhs, rhs)
-      local opts = {buffer = true}
+      local opts = { buffer = true }
       vim.keymap.set(mode, lhs, rhs, opts)
     end
 
@@ -364,8 +374,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
     bufmap('x', '<M-CR>', '<cmd>lua vim.lsp.buf.range_code_action()<cr>')
 
     -- Show diagnostics in a floating window
-    --bufmap('n', 'gl', '<cmd>lua vim.diagnostic.open_float()<cr>')
-    bufmap('n', 'gl', ':lua require"popui.diagnostics-navigator"()<CR>')
+    bufmap('n', 'gl', '<cmd>lua vim.diagnostic.open_float()<cr>')
 
     -- Move to the previous diagnostic
     bufmap('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<cr>')
@@ -385,34 +394,36 @@ vim.g.mapleader = ' '                                     -- set space to be the
 vim.keymap.set('n', '<leader>w', '<cmd>w<cr>')            -- save
 vim.keymap.set('n', '<leader>q', '<cmd>q<cr>')            -- close buffer
 vim.keymap.set('n', '<leader>Q', '<cmd>Bwipeout<cr>')     -- wipeout buffer
-vim.keymap.set('n', '<leader>e', '<cmd>Oil<cr>')      -- open netrw file explorer
+vim.keymap.set('n', '<leader>e', '<cmd>Oil<cr>')          -- open netrw file explorer
 vim.keymap.set('n', '<leader>s', '<C-w>')                 -- window(split) options
-vim.keymap.set('n', '<CR>', 'o<ESC>')                     -- newline on enter in normal mode
-vim.keymap.set('n', '<S-CR>', 'O<ESC>')
 vim.keymap.set('n', '<leader>vim', '<cmd>e $MYVIMRC<cr>') -- open init.lua
 vim.keymap.set('n', 'U', '<C-r>')                         -- redo
-vim.keymap.set('n', 'J', '5j')         -- scroll down
-vim.keymap.set('n', 'K', '5k')         -- scroll up
-vim.keymap.set('n', '<C-j>', '<C-w>j')         -- scroll down
-vim.keymap.set('n', '<C-k>', '<C-w>k')         -- scroll up
-vim.keymap.set('n', '<C-l>', '<C-w>l')         -- scroll down
-vim.keymap.set('n', '<C-h>', '<C-w>h')         -- scroll up
+vim.keymap.set('n', '<C-j>', '<C-w>j')                    -- scroll down
+vim.keymap.set('n', '<C-k>', '<C-w>k')                    -- scroll up
+vim.keymap.set('n', '<C-l>', '<C-w>l')                    -- scroll down
+vim.keymap.set('n', '<C-h>', '<C-w>h')                    -- scroll up
 
 
-vim.keymap.set({'n', 'v'}, '<leader>p', '"+p')            -- paste from system clipboard
-vim.keymap.set({'n', 'v'}, '<leader>y', '"+y')            -- copy to system clipboard
-vim.keymap.set({'n', 'v'}, '<leader>d', '"+d')            -- cut to system clipboard
-vim.keymap.set({'n', 'v'}, '<leader>j', ']')              -- next <something>
-vim.keymap.set({'n', 'v'}, '<leader>k', '[')              -- prev <something>
+vim.keymap.set({ 'n', 'v' }, '<leader>p', '"+p')           -- paste from system clipboard
+vim.keymap.set({ 'n', 'v' }, '<leader>y', '"+y')           -- copy to system clipboard
+vim.keymap.set({ 'n', 'v' }, '<leader>d', '"+d')           -- cut to system clipboard
+vim.keymap.set({ 'n', 'v' }, '<leader>j', ']')             -- next <something>
+vim.keymap.set({ 'n', 'v' }, '<leader>k', '[')             -- prev <something>
+vim.keymap.set({ 'n', 'v' }, 'J', '5j')                    -- scroll down
+vim.keymap.set({ 'n', 'v' }, 'K', '5k')                    -- scroll up
 
-vim.keymap.set('', 'H', '^')                              -- move to start of line
-vim.keymap.set('', 'L', '$')                              -- move to end of line
-vim.keymap.set('', '<leader>m', '@')                      -- call macro
+vim.keymap.set('', 'H', '^')                               -- move to start of line
+vim.keymap.set('', 'L', '$')                               -- move to end of line
+vim.keymap.set('', '<leader>m', '@')                       -- call macro
 
-vim.keymap.set({'n', 'i'}, '<M-Down>', '<cmd>m .+1<CR>')  -- move line down
-vim.keymap.set({'n', 'i'}, '<M-j>', '<cmd>m .+1<CR>')
-vim.keymap.set({'n', 'i'}, '<M-Up>', '<cmd>m .-2<CR>')    -- move line up
-vim.keymap.set({'n', 'i'}, '<M-k>', '<cmd>m .-2<CR>')
+vim.keymap.set({ 'n', 'i' }, '<M-Down>', '<cmd>m .+1<CR>') -- move line down
+vim.keymap.set({ 'n', 'i' }, '<M-j>', '<cmd>m .+1<CR>')
+vim.keymap.set({ 'n', 'i' }, '<M-Up>', '<cmd>m .-2<CR>')   -- move line up
+vim.keymap.set({ 'n', 'i' }, '<M-k>', '<cmd>m .-2<CR>')
+
+vim.keymap.set('t', '<Esc>', '<C-\\><C-n>')
+vim.keymap.set('n', '<leader>t', '<C-w>v<C-w>l<cmd>terminal<CR>')
+
 
 local builtin = require('telescope.builtin')
 vim.keymap.set('n', '<leader>ff', builtin.find_files)
@@ -420,5 +431,3 @@ vim.keymap.set('n', '<leader>fo', builtin.oldfiles)
 vim.keymap.set('n', '<leader>fg', builtin.live_grep)
 vim.keymap.set('n', '<leader>fb', builtin.buffers)
 vim.keymap.set('n', '<leader>fh', builtin.help_tags)
-
-
