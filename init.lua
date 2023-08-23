@@ -24,6 +24,7 @@ end
 lazy.path = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
 lazy.opts = {}
 
+
 lazy.setup({
   { 'navarasu/onedark.nvim' },
   { 'folke/tokyonight.nvim' },
@@ -188,6 +189,7 @@ require('nvim-treesitter.configs').setup {
 -- lsp stuff
 
 
+require('lspconfig').clangd.setup {}
 vim.cmd [[autocmd BufWritePre * lua vim.lsp.buf.format()]] -- format on save
 
 local lspconfig = require('lspconfig')
@@ -385,24 +387,15 @@ vim.api.nvim_create_autocmd('LspAttach', {
 })
 
 
-vim.api.nvim_set_keymap("n", ",m", ':lua require"popui.marks-manager"()<CR>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap("n", ",r", ':lua require"popui.references-navigator"()<CR>', { noremap = true, silent = true })
-
-
 -- remaps
-vim.g.mapleader = ' '                                     -- set space to be the <leader> key
-vim.keymap.set('n', '<leader>w', '<cmd>w<cr>')            -- save
-vim.keymap.set('n', '<leader>q', '<cmd>q<cr>')            -- close buffer
-vim.keymap.set('n', '<leader>Q', '<cmd>Bwipeout<cr>')     -- wipeout buffer
-vim.keymap.set('n', '<leader>e', '<cmd>Oil<cr>')          -- open netrw file explorer
-vim.keymap.set('n', '<leader>s', '<C-w>')                 -- window(split) options
-vim.keymap.set('n', '<leader>vim', '<cmd>e $MYVIMRC<cr>') -- open init.lua
-vim.keymap.set('n', 'U', '<C-r>')                         -- redo
-vim.keymap.set('n', '<C-j>', '<C-w>j')                    -- scroll down
-vim.keymap.set('n', '<C-k>', '<C-w>k')                    -- scroll up
-vim.keymap.set('n', '<C-l>', '<C-w>l')                    -- scroll down
-vim.keymap.set('n', '<C-h>', '<C-w>h')                    -- scroll up
-
+vim.g.mapleader = ' '                                      -- set space to be the <leader> key
+vim.keymap.set('n', '<leader>s', '<C-w>')                  -- window(split) options
+vim.keymap.set('n', '<leader>vim', '<cmd>e $MYVIMRC<cr>')  -- open init.lua
+vim.keymap.set('n', 'U', '<C-r>')                          -- redo
+vim.keymap.set('n', '<C-j>', '<C-w>j')                     -- scroll down
+vim.keymap.set('n', '<C-k>', '<C-w>k')                     -- scroll up
+vim.keymap.set('n', '<C-l>', '<C-w>l')                     -- scroll down
+vim.keymap.set('n', '<C-h>', '<C-w>h')                     -- scroll up
 
 vim.keymap.set({ 'n', 'v' }, '<leader>p', '"+p')           -- paste from system clipboard
 vim.keymap.set({ 'n', 'v' }, '<leader>y', '"+y')           -- copy to system clipboard
@@ -412,6 +405,10 @@ vim.keymap.set({ 'n', 'v' }, '<leader>k', '[')             -- prev <something>
 vim.keymap.set({ 'n', 'v' }, 'J', '5j')                    -- scroll down
 vim.keymap.set({ 'n', 'v' }, 'K', '5k')                    -- scroll up
 
+vim.keymap.set('', '<leader>w', '<cmd>w<cr>')              -- save
+vim.keymap.set('', '<leader>q', '<cmd>Bwipeout<cr>')       -- wipeout buffer
+vim.keymap.set('', '<leader>Q', '<cmd>q<cr>')              -- close buffer
+vim.keymap.set('', '<leader>e', '<cmd>Oil<cr>')            -- open netrw file explorer
 vim.keymap.set('', 'H', '^')                               -- move to start of line
 vim.keymap.set('', 'L', '$')                               -- move to end of line
 vim.keymap.set('', '<leader>m', '@')                       -- call macro
@@ -422,7 +419,7 @@ vim.keymap.set({ 'n', 'i' }, '<M-Up>', '<cmd>m .-2<CR>')   -- move line up
 vim.keymap.set({ 'n', 'i' }, '<M-k>', '<cmd>m .-2<CR>')
 
 vim.keymap.set('t', '<Esc>', '<C-\\><C-n>')
-vim.keymap.set('n', '<leader>t', '<C-w>v<C-w>l<cmd>terminal<CR>')
+vim.keymap.set('n', '<leader>t', '<cmd>terminal<CR>')
 
 
 local builtin = require('telescope.builtin')
