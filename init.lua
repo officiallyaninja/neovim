@@ -40,7 +40,11 @@ lazy.setup({
     tag = '0.1.2',
     dependencies = { 'nvim-lua/plenary.nvim' }
   },
-  { 'nvim-telescope/telescope-fzf-native.nvim',   build = 'make' },
+  {
+    'nvim-telescope/telescope-fzf-native.nvim',
+    build = 'make'
+  },
+
   {
     "kylechui/nvim-surround",
     version = "*", -- Use for stability; omit to use `main` branch for the latest features
@@ -54,8 +58,11 @@ lazy.setup({
   { 'moll/vim-bbye' },
   { 'wellle/targets.vim' },
   { 'ggandor/leap.nvim' },
-  { 'nvim-treesitter/nvim-treesitter',            build = ':TSUpdate' },
-  { 'HiPhish/nvim-ts-rainbow2' },
+  {
+    'nvim-treesitter/nvim-treesitter',
+    build = ':TSUpdate'
+  },
+  { 'Hi--Phish/nvim-ts-rainbow2' },
   { 'nvim-treesitter/nvim-treesitter-textobjects' },
   { 'williamboman/mason.nvim' },
   { 'stevearc/oil.nvim' },
@@ -71,7 +78,76 @@ lazy.setup({
   { 'kosayoda/nvim-lightbulb' },
   { 'stevearc/dressing.nvim' },
   { 'cohama/lexima.vim' },
+  {
+    'numToStr/Comment.nvim',
+    lazy = false
+  },
+  { 'numToStr/FTerm.nvim' },
+  { 'simrat39/rust-tools.nvim' },
+  { 'hrsh7th/cmp-cmdline' },
 })
+
+
+
+-- remaps
+vim.g.mapleader = ' '                                      -- set space to be the <leader> key
+vim.keymap.set('n', '<leader>s', '<C-w>')                  -- window(split) options
+vim.keymap.set('n', '<leader>vim', '<cmd>e $MYVIMRC<cr>')  -- open init.lua
+vim.keymap.set('n', 'U', '<C-r>')                          -- redo
+vim.keymap.set('n', '<C-j>', '<C-w>j')                     -- scroll down
+vim.keymap.set('n', '<C-k>', '<C-w>k')                     -- scroll up
+vim.keymap.set('n', '<C-l>', '<C-w>l')                     -- scroll down
+vim.keymap.set('n', '<C-h>', '<C-w>h')                     -- scroll up
+
+vim.keymap.set({ 'n', 'v' }, '<leader>p', '"+p')           -- paste from system clipboard
+vim.keymap.set({ 'n', 'v' }, '<leader>y', '"+y')           -- copy to system clipboard
+vim.keymap.set({ 'n', 'v' }, '<leader>d', '"+d')           -- cut to system clipboard
+vim.keymap.set({ 'n', 'v' }, '<leader>j', ']')             -- next <something>
+vim.keymap.set({ 'n', 'v' }, '<leader>k', '[')             -- prev <something>
+vim.keymap.set({ 'n', 'v' }, 'J', '5j')                    -- scroll down
+vim.keymap.set({ 'n', 'v' }, 'K', '5k')                    -- scroll up
+
+vim.keymap.set('', '<leader>w', '<cmd>w<cr>')              -- save
+vim.keymap.set('', '<leader>q', '<cmd>Bwipeout<cr>')       -- wipeout buffer
+vim.keymap.set('', '<leader>Q', '<cmd>q<cr>')              -- close buffer
+vim.keymap.set('', '<leader>e', '<cmd>Oil<cr>')            -- open netrw file explorer
+vim.keymap.set('', 'H', '^')                               -- move to start of line
+vim.keymap.set('', 'L', '$')                               -- move to end of line
+vim.keymap.set('', '<leader>m', '@')                       -- call macro
+
+vim.keymap.set({ 'n', 'i' }, '<M-Down>', '<cmd>m .+1<CR>') -- move line down
+vim.keymap.set({ 'n', 'i' }, '<M-j>', '<cmd>m .+1<CR>')
+vim.keymap.set({ 'n', 'i' }, '<M-Up>', '<cmd>m .-2<CR>')   -- move line up
+vim.keymap.set({ 'n', 'i' }, '<M-k>', '<cmd>m .-2<CR>')
+
+vim.keymap.set('t', '<Esc>', '<C-\\><C-n>')
+--vim.keymap.set('n', '<leader>t', '<cmd>terminal<CR>')
+vim.keymap.set('n', '<C-t>', '<CMD>lua require("FTerm").toggle()<CR>')
+vim.keymap.set('t', '<C-t>', '<C-\\><C-n><CMD>lua require("FTerm").toggle()<CR>')
+
+vim.keymap.set('i', '<M-r>', '&')
+vim.keymap.set('i', '<M-p>', '+')
+vim.keymap.set('i', '<M-m>', '-')
+vim.keymap.set('i', '<M-t>', '*')
+vim.keymap.set('i', '<M-e>', '=')
+vim.keymap.set('i', '<M-b>', '\\')
+
+
+vim.keymap.set({ 'n', 'i' }, '<C-_>', 'gcc', { remap = true })
+vim.keymap.set('x', '<C-_>', 'gc', { remap = true })
+
+local builtin = require('telescope.builtin')
+
+
+vim.keymap.set('n', '<leader>ff', builtin.find_files)
+vim.keymap.set('n', '<leader>fS', builtin.lsp_document_symbols)
+vim.keymap.set('n', '<leader>fs', builtin.lsp_workspace_symbols)
+
+vim.keymap.set('n', '<leader>fo', builtin.oldfiles)
+vim.keymap.set('n', '<leader>fg', builtin.live_grep)
+vim.keymap.set('n', '<leader>fb', builtin.buffers)
+vim.keymap.set('n', '<leader>fh', builtin.help_tags)
+
 
 --user settings files
 require("user.leap")
@@ -82,18 +158,33 @@ require('mason').setup()
 require('mason-lspconfig').setup()
 require('nvim-web-devicons').setup()
 require('netrw').setup()
-require('lualine').setup()
+
+require('lualine').setup {
+  sections = {
+    lualine_x = { 'datetime', 'encoding', 'fileformat', 'filetype' },
+  }
+}
+
+
 require('onedark').setup {
   style = 'cool'
 }
 require('onedark').load()
 require('neoscroll').setup()
 require("oil").setup()
+require('Comment').setup()
+require('telescope').load_extension('fzf')
 
 -- more configured
+
+require 'FTerm'.setup({
+  cmd = 'cmd.exe'
+})
+
 require("nvim-lightbulb").setup({
   autocmd = { enabled = true }
 })
+
 
 require('nvim-treesitter.configs').setup({
   highlight = {
@@ -106,6 +197,7 @@ require('nvim-treesitter.configs').setup({
 TS = require('nvim-treesitter.install')
 TS.prefer_git = false
 TS.compilers = { "gcc", "make" }
+
 
 -- theme
 vim.opt.termguicolors = true
@@ -201,6 +293,19 @@ lsp_defaults.capabilities = vim.tbl_deep_extend(
   require('cmp_nvim_lsp').default_capabilities()
 )
 
+local rt = require("rust-tools")
+
+rt.setup({
+  server = {
+    on_attach = function(_, bufnr)
+      -- Hover actions
+      vim.keymap.set("n", "<C-space>", rt.hover_actions.hover_actions, { buffer = bufnr })
+      -- Code action groups
+      vim.keymap.set("n", "<Leader>a", rt.code_action_group.code_action_group, { buffer = bufnr })
+    end,
+  },
+})
+
 require 'lspconfig'.lua_ls.setup {
   -- ... other configs
   settings = {
@@ -245,6 +350,26 @@ vim.diagnostic.config({
 local cmp = require('cmp')
 local luasnip = require('luasnip')
 local select_opts = { behavior = cmp.SelectBehavior.Select }
+
+cmp.setup.cmdline('/', {
+  mapping = cmp.mapping.preset.cmdline(),
+  sources = {
+    { name = 'buffer' }
+  }
+})
+cmp.setup.cmdline(':', {
+  mapping = cmp.mapping.preset.cmdline(),
+  sources = cmp.config.sources({
+    { name = 'path' }
+  }, {
+    {
+      name = 'cmdline',
+      option = {
+        ignore_cmds = { 'Man', '!' }
+      }
+    }
+  })
+})
 
 cmp.setup({
   snippet = {
@@ -352,6 +477,8 @@ vim.api.nvim_create_autocmd('BufWinEnter', {
 
 
 vim.api.nvim_create_autocmd('LspAttach', {
+
+
   desc = 'LSP actions',
   callback = function()
     local bufmap = function(mode, lhs, rhs)
@@ -372,8 +499,8 @@ vim.api.nvim_create_autocmd('LspAttach', {
     bufmap('n', 'gr', '<cmd>lua vim.lsp.buf.rename()<cr>')
 
     -- Selects a code action available at the current cursor position
-    bufmap('n', '<M-CR>', '<cmd>lua vim.lsp.buf.code_action()<cr>')
-    bufmap('x', '<M-CR>', '<cmd>lua vim.lsp.buf.range_code_action()<cr>')
+    bufmap({ 'n', 'i' }, '<M-CR>', '<cmd>lua vim.lsp.buf.code_action()<cr>')
+    bufmap('x', '<M-CR>', '<cmd>lua vim.lsp.buf.code_action()<cr>')
 
     -- Show diagnostics in a floating window
     bufmap('n', 'gl', '<cmd>lua vim.diagnostic.open_float()<cr>')
@@ -385,46 +512,3 @@ vim.api.nvim_create_autocmd('LspAttach', {
     bufmap('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<cr>')
   end
 })
-
-
--- remaps
-vim.g.mapleader = ' '                                      -- set space to be the <leader> key
-vim.keymap.set('n', '<leader>s', '<C-w>')                  -- window(split) options
-vim.keymap.set('n', '<leader>vim', '<cmd>e $MYVIMRC<cr>')  -- open init.lua
-vim.keymap.set('n', 'U', '<C-r>')                          -- redo
-vim.keymap.set('n', '<C-j>', '<C-w>j')                     -- scroll down
-vim.keymap.set('n', '<C-k>', '<C-w>k')                     -- scroll up
-vim.keymap.set('n', '<C-l>', '<C-w>l')                     -- scroll down
-vim.keymap.set('n', '<C-h>', '<C-w>h')                     -- scroll up
-
-vim.keymap.set({ 'n', 'v' }, '<leader>p', '"+p')           -- paste from system clipboard
-vim.keymap.set({ 'n', 'v' }, '<leader>y', '"+y')           -- copy to system clipboard
-vim.keymap.set({ 'n', 'v' }, '<leader>d', '"+d')           -- cut to system clipboard
-vim.keymap.set({ 'n', 'v' }, '<leader>j', ']')             -- next <something>
-vim.keymap.set({ 'n', 'v' }, '<leader>k', '[')             -- prev <something>
-vim.keymap.set({ 'n', 'v' }, 'J', '5j')                    -- scroll down
-vim.keymap.set({ 'n', 'v' }, 'K', '5k')                    -- scroll up
-
-vim.keymap.set('', '<leader>w', '<cmd>w<cr>')              -- save
-vim.keymap.set('', '<leader>q', '<cmd>Bwipeout<cr>')       -- wipeout buffer
-vim.keymap.set('', '<leader>Q', '<cmd>q<cr>')              -- close buffer
-vim.keymap.set('', '<leader>e', '<cmd>Oil<cr>')            -- open netrw file explorer
-vim.keymap.set('', 'H', '^')                               -- move to start of line
-vim.keymap.set('', 'L', '$')                               -- move to end of line
-vim.keymap.set('', '<leader>m', '@')                       -- call macro
-
-vim.keymap.set({ 'n', 'i' }, '<M-Down>', '<cmd>m .+1<CR>') -- move line down
-vim.keymap.set({ 'n', 'i' }, '<M-j>', '<cmd>m .+1<CR>')
-vim.keymap.set({ 'n', 'i' }, '<M-Up>', '<cmd>m .-2<CR>')   -- move line up
-vim.keymap.set({ 'n', 'i' }, '<M-k>', '<cmd>m .-2<CR>')
-
-vim.keymap.set('t', '<Esc>', '<C-\\><C-n>')
-vim.keymap.set('n', '<leader>t', '<cmd>terminal<CR>')
-
-
-local builtin = require('telescope.builtin')
-vim.keymap.set('n', '<leader>ff', builtin.find_files)
-vim.keymap.set('n', '<leader>fo', builtin.oldfiles)
-vim.keymap.set('n', '<leader>fg', builtin.live_grep)
-vim.keymap.set('n', '<leader>fb', builtin.buffers)
-vim.keymap.set('n', '<leader>fh', builtin.help_tags)
