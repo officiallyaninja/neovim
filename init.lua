@@ -85,6 +85,7 @@ lazy.setup({
   { 'numToStr/FTerm.nvim' },
   { 'simrat39/rust-tools.nvim' },
   { 'hrsh7th/cmp-cmdline' },
+  { 'onsails/lspkind.nvim' },
 })
 
 
@@ -151,6 +152,7 @@ vim.keymap.set('n', '<leader>fh', builtin.help_tags)
 
 --user settings files
 require("user.leap")
+require('user.completion')
 
 
 -- setup
@@ -280,7 +282,6 @@ require('nvim-treesitter.configs').setup {
 
 -- lsp stuff
 
-
 require('lspconfig').clangd.setup {}
 vim.cmd [[autocmd BufWritePre * lua vim.lsp.buf.format()]] -- format on save
 
@@ -347,106 +348,6 @@ vim.diagnostic.config({
 })
 
 
-local cmp = require('cmp')
-local luasnip = require('luasnip')
-local select_opts = { behavior = cmp.SelectBehavior.Select }
-
-cmp.setup.cmdline('/', {
-  mapping = cmp.mapping.preset.cmdline(),
-  sources = {
-    { name = 'buffer' }
-  }
-})
-cmp.setup.cmdline(':', {
-  mapping = cmp.mapping.preset.cmdline(),
-  sources = cmp.config.sources({
-    { name = 'path' }
-  }, {
-    {
-      name = 'cmdline',
-      option = {
-        ignore_cmds = { 'Man', '!' }
-      }
-    }
-  })
-})
-
-cmp.setup({
-  snippet = {
-    expand = function(args)
-      luasnip.lsp_expand(args.body)
-    end
-  },
-  sources = {
-    { name = 'path' },
-    { name = 'nvim_lsp', keyword_length = 1 },
-    { name = 'buffer',   keyword_length = 3 },
-    { name = 'luasnip',  keyword_length = 2 },
-  },
-  window = {
-    documentation = cmp.config.window.bordered()
-  },
-  formatting = {
-    fields = { 'menu', 'abbr', 'kind' },
-    format = function(entry, item)
-      local menu_icon = {
-        nvim_lsp = 'λ',
-        luasnip = '⋗',
-        buffer = 'Ω',
-        path = '🖫',
-      }
-      item.menu = menu_icon[entry.source.name]
-      return item
-    end,
-  },
-  mapping = {
-    ['<Up>'] = cmp.mapping.select_prev_item(select_opts),
-    ['<Down>'] = cmp.mapping.select_next_item(select_opts),
-
-    ['<C-u>'] = cmp.mapping.scroll_docs(-4),
-    ['<C-d>'] = cmp.mapping.scroll_docs(4),
-
-    ['<C-e>'] = cmp.mapping.abort(),
-    ['<CR>'] = cmp.mapping.confirm({ select = true }),
-    ['<Tab>'] = cmp.mapping.confirm({ select = true }),
-    ['<C-l>'] = cmp.mapping(function(fallback)
-      if luasnip.jumpable(1) then
-        luasnip.jump(1)
-      else
-        -- fallback()
-      end
-    end, { 'i', 's' }),
-
-    ['<C-h>'] = cmp.mapping(function(fallback)
-      if luasnip.jumpable(-1) then
-        luasnip.jump(-1)
-      else
-        -- fallback()
-      end
-    end, { 'i', 's' }),
-
-    ['<C-j>'] = cmp.mapping(function(fallback)
-      local col = vim.fn.col('.') - 1
-
-      if cmp.visible() then
-        cmp.select_next_item(select_opts)
-      elseif col == 0 or vim.fn.getline('.'):sub(col, col):match('%s') then
-        fallback()
-      else
-        cmp.complete()
-      end
-    end, { 'i', 's' }),
-
-    ['<C-k>'] = cmp.mapping(function(fallback)
-      if cmp.visible() then
-        cmp.select_prev_item(select_opts)
-      else
-        fallback()
-      end
-    end, { 'i', 's' }),
-
-  }
-})
 
 -- opts
 vim.opt.mouse = 'a'
