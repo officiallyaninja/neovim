@@ -16,6 +16,7 @@ end
 
 function lazy.setup(plugins)
   -- You can "comment out" the line below after lazy.nvim is installed
+  lazy.install(lazy.path)
   -- lazy.install(lazy.path)
   vim.opt.rtp:prepend(lazy.path)
   require('lazy').setup(plugins, lazy.opts)
@@ -42,7 +43,8 @@ lazy.setup({
   },
   {
     'nvim-telescope/telescope-fzf-native.nvim',
-    build = 'make'
+    build =
+    'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build'
   },
 
   {
@@ -62,7 +64,6 @@ lazy.setup({
     'nvim-treesitter/nvim-treesitter',
     build = ':TSUpdate'
   },
-  { 'Hi--Phish/nvim-ts-rainbow2' },
   { 'nvim-treesitter/nvim-treesitter-textobjects' },
   { 'williamboman/mason.nvim' },
   { 'stevearc/oil.nvim' },
@@ -198,12 +199,12 @@ require('nvim-treesitter.configs').setup({
 })
 TS = require('nvim-treesitter.install')
 TS.prefer_git = false
-TS.compilers = { "gcc", "make" }
+TS.compilers = { "zig", "gcc", "clang" }
 
 
 -- theme
 vim.opt.termguicolors = true
-vim.cmd.colorscheme('onedark')
+vim.cmd.colorscheme('tokyonight-moon')
 vim.cmd [[highlight IndentBlanklineContextChar guifg=#C678DD gui=nocombine]]
 vim.cmd [[highlight IndentBlanklineContextStart guisp=#C678DD gui=underline]]
 
@@ -238,9 +239,8 @@ require('nvim-treesitter.configs').setup {
     -- list of languages you want to disable the plugin for
     -- disable = { 'jsx', 'cpp' },
     -- Which query to use for finding delimiters
-    query = 'rainbow-parens',
+    -- query = 'rainbow-parens',
     -- Highlight the entire buffer all at once
-    strategy = require('ts-rainbow').strategy.global,
   },
   textobjects = {
     select = {
