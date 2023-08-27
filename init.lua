@@ -204,7 +204,7 @@ TS.compilers = { "zig", "gcc", "clang" }
 
 -- theme
 vim.opt.termguicolors = true
-vim.cmd.colorscheme('tokyonight-moon')
+vim.cmd.colorscheme('onedark')
 vim.cmd [[highlight IndentBlanklineContextChar guifg=#C678DD gui=nocombine]]
 vim.cmd [[highlight IndentBlanklineContextStart guisp=#C678DD gui=underline]]
 
