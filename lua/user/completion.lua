@@ -27,22 +27,39 @@ cmp.setup({
     { name = 'nvim_lsp', keyword_length = 1 },
     { name = 'buffer',   keyword_length = 3 },
     { name = 'luasnip',  keyword_length = 2 },
+    { name = "crates" },
   },
   window = {
-    documentation = cmp.config.window.bordered()
+    documentation = cmp.config.window.bordered(),
+    completion = {
+      --winhighlight = "Normal:Pmenu,FloatBorder:Pmenu,Search:None",
+      col_offset = -2,
+      side_padding = 0,
+    },
   },
   formatting = {
-    fields = { 'menu', 'abbr', 'kind' },
-    format = function(entry, item)
-      local menu_icon = {
-        nvim_lsp = 'λ',
-        luasnip = '⋗',
-        buffer = 'Ω',
-        path = '🖫',
-      }
-      item.menu = menu_icon[entry.source.name]
-      return item
+
+    fields = { "kind", "abbr", "menu" },
+    format = function(entry, vim_item)
+      local kind = require("lspkind").cmp_format({ mode = "symbol_text", maxwidth = 50 })(entry, vim_item)
+      local strings = vim.split(kind.kind, "%s", { trimempty = true })
+      --kind.kind = " " .. (strings[1] or "") .. " "
+
+      kind.kind = "" .. (strings[1] or "") .. " "
+      kind.menu = "    (" .. (strings[2] or "") .. ")"
+
+      return kind
     end,
+    -- format = function(entry, item)
+    --   local menu_icon = {
+    --   R nvim_lsp = 'λ',
+    --     luasnip = '⋗',
+    --     buffer = 'Ω',
+    --     path = '🖫',
+    --   }
+    --   item.menu = menu_icon[entry.source.name]
+    --   return item
+    -- end,
   },
   mapping = {
     ['<Up>'] = cmp.mapping.select_prev_item(select_opts),
@@ -93,9 +110,9 @@ cmp.setup({
   }
 })
 
-local lspkind = require('lspkind')
-cmp.setup {
-  formatting = {
-    format = lspkind.cmp_format(),
-  },
-}
+-- local lspkind = require('lspkind')
+-- cmp.setup {
+--   formatting = {
+--     format = lspkind.cmp_format(),
+--   },
+-- }

@@ -87,6 +87,14 @@ lazy.setup({
   { 'simrat39/rust-tools.nvim' },
   { 'hrsh7th/cmp-cmdline' },
   { 'onsails/lspkind.nvim' },
+  {
+    'saecki/crates.nvim',
+    tag = 'v0.3.0',
+    requires = { 'nvim-lua/plenary.nvim' },
+    config = function()
+      require('crates').setup()
+    end,
+  },
 })
 
 
@@ -282,6 +290,9 @@ require('nvim-treesitter.configs').setup {
 
 -- lsp stuff
 
+-- require 'lspconfig'.pylsp.setup {}
+require 'lspconfig'.pyright.setup {}
+
 require('lspconfig').clangd.setup {}
 vim.cmd [[autocmd BufWritePre * lua vim.lsp.buf.format()]] -- format on save
 
@@ -376,10 +387,21 @@ vim.api.nvim_create_autocmd('BufWinEnter', {
   end
 })
 
+local function show_documentation()
+  local filetype = vim.bo.filetype
+  if vim.tbl_contains({ 'vim', 'help' }, filetype) then
+    vim.cmd('h ' .. vim.fn.expand('<cword>'))
+  elseif vim.tbl_contains({ 'man' }, filetype) then
+    vim.cmd('Man ' .. vim.fn.expand('<cword>'))
+  elseif vim.fn.expand('%:t') == 'Cargo.toml' and require('crates').popup_available() then
+    require('crates').show_popup()
+  else
+    vim.lsp.buf.hover()
+  end
+end
+
 
 vim.api.nvim_create_autocmd('LspAttach', {
-
-
   desc = 'LSP actions',
   callback = function()
     local bufmap = function(mode, lhs, rhs)
@@ -388,7 +410,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
     end
 
     -- Displays hover information about the symbol under the cursor
-    bufmap('n', 'gh', '<cmd>lua vim.lsp.buf.hover()<cr>')
+    bufmap('n', 'gh', show_documentation)
 
     -- Jump to the definition
     bufmap('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<cr>')
