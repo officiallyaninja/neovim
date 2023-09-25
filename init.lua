@@ -1,3 +1,6 @@
+-- TODO:
+--    think about using wilder
+--    set up lsp border
 local lazy = {}
 
 function lazy.install(path)
@@ -95,40 +98,66 @@ lazy.setup({
       require('crates').setup()
     end,
   },
+  {
+    "folke/todo-comments.nvim",
+    dependencies = { "nvim-lua/plenary.nvim" },
+    opts = {
+      highlight = {
+        keyword = "fg",
+      }
+    }
+  },
+  { "echasnovski/mini.move" },
+  {
+    'akinsho/flutter-tools.nvim',
+    lazy = false,
+    dependencies = {
+      'nvim-lua/plenary.nvim',
+      'stevearc/dressing.nvim', -- optional for vim.ui.select
+    },
+    config = true,
+  },
+  {
+    'stevearc/conform.nvim',
+    opts = {},
+  },
 })
 
 
 
 -- remaps
-vim.g.mapleader = ' '                                      -- set space to be the <leader> key
-vim.keymap.set('n', '<leader>s', '<C-w>')                  -- window(split) options
-vim.keymap.set('n', '<leader>vim', '<cmd>e $MYVIMRC<cr>')  -- open init.lua
-vim.keymap.set('n', 'U', '<C-r>')                          -- redo
-vim.keymap.set('n', '<C-j>', '<C-w>j')                     -- scroll down
-vim.keymap.set('n', '<C-k>', '<C-w>k')                     -- scroll up
-vim.keymap.set('n', '<C-l>', '<C-w>l')                     -- scroll down
-vim.keymap.set('n', '<C-h>', '<C-w>h')                     -- scroll up
+vim.g.mapleader = ' '                                     -- set space to be the <leader> key
+vim.keymap.set('n', '<leader>s', '<C-w>')                 -- window(split) options
+vim.keymap.set('n', '<leader>vim', '<cmd>e $MYVIMRC<cr>') -- open init.lua
+vim.keymap.set('n', 'U', '<C-r>')                         -- redo
+vim.keymap.set('n', '<C-j>', '<C-w>j')                    -- scroll down
+vim.keymap.set('n', '<C-k>', '<C-w>k')                    -- scroll up
+vim.keymap.set('n', '<C-l>', '<C-w>l')                    -- scroll down
+vim.keymap.set('n', '<C-h>', '<C-w>h')                    -- scroll up
 
-vim.keymap.set({ 'n', 'v' }, '<leader>p', '"+p')           -- paste from system clipboard
-vim.keymap.set({ 'n', 'v' }, '<leader>y', '"+y')           -- copy to system clipboard
-vim.keymap.set({ 'n', 'v' }, '<leader>d', '"+d')           -- cut to system clipboard
-vim.keymap.set({ 'n', 'v' }, '<leader>j', ']')             -- next <something>
-vim.keymap.set({ 'n', 'v' }, '<leader>k', '[')             -- prev <something>
-vim.keymap.set({ 'n', 'v' }, 'J', '5j')                    -- scroll down
-vim.keymap.set({ 'n', 'v' }, 'K', '5k')                    -- scroll up
+vim.keymap.set({ 'n', 'v' }, '<leader>p', '"+p')          -- paste from system clipboard
+vim.keymap.set({ 'n', 'v' }, '<leader>P', '"+P')          -- paste from system clipboard
+vim.keymap.set({ 'n', 'v' }, '<leader>y', '"+y')          -- copy to system clipboard
+vim.keymap.set({ 'n', 'v' }, '<leader>Y', '"+Y')          -- copy to system clipboard
+vim.keymap.set({ 'n', 'v' }, '<leader>d', '"+d')          -- cut to system clipboard
+vim.keymap.set({ 'n', 'v' }, '<leader>D', '"+D')          -- cut to system clipboard
+vim.keymap.set({ 'n', 'v' }, '<leader>j', ']')            -- next <something>
+vim.keymap.set({ 'n', 'v' }, '<leader>k', '[')            -- prev <something>
+vim.keymap.set({ 'n', 'v' }, 'J', '5j')                   -- scroll down
+vim.keymap.set({ 'n', 'v' }, 'K', '5k')                   -- scroll up
 
-vim.keymap.set('', '<leader>w', '<cmd>w<cr>')              -- save
-vim.keymap.set('', '<leader>q', '<cmd>Bwipeout<cr>')       -- wipeout buffer
-vim.keymap.set('', '<leader>Q', '<cmd>q<cr>')              -- close buffer
-vim.keymap.set('', '<leader>e', '<cmd>Oil<cr>')            -- open netrw file explorer
-vim.keymap.set('', 'H', '^')                               -- move to start of line
-vim.keymap.set('', 'L', '$')                               -- move to end of line
-vim.keymap.set('', '<leader>m', '@')                       -- call macro
+vim.keymap.set('', '<leader>w', '<cmd>w<cr>')             -- save
+vim.keymap.set('', '<leader>q', '<cmd>Bwipeout<cr>')      -- wipeout buffer
+vim.keymap.set('', '<leader>Q', '<cmd>q<cr>')             -- close buffer
+vim.keymap.set('', '<leader>e', '<cmd>Oil<cr>')           -- open netrw file explorer
+vim.keymap.set('', 'H', '^')                              -- move to start of line
+vim.keymap.set('', 'L', '$')                              -- move to end of line
+vim.keymap.set('', '<leader>m', '@')                      -- call macro
 
-vim.keymap.set({ 'n', 'i' }, '<M-Down>', '<cmd>m .+1<CR>') -- move line down
-vim.keymap.set({ 'n', 'i' }, '<M-j>', '<cmd>m .+1<CR>')
-vim.keymap.set({ 'n', 'i' }, '<M-Up>', '<cmd>m .-2<CR>')   -- move line up
-vim.keymap.set({ 'n', 'i' }, '<M-k>', '<cmd>m .-2<CR>')
+-- vim.keymap.set({ 'n', 'i' }, '<M-Down>', '<cmd>m .+1<CR>') -- move line down
+-- vim.keymap.set({ 'n', 'i' }, '<M-j>', '<cmd>m .+1<CR>')
+-- vim.keymap.set({ 'n', 'i' }, '<M-Up>', '<cmd>m .-2<CR>')   -- move line up
+-- vim.keymap.set({ 'n', 'i' }, '<M-k>', '<cmd>m .-2<CR>')
 
 vim.keymap.set('t', '<Esc>', '<C-\\><C-n>')
 --vim.keymap.set('n', '<leader>t', '<cmd>terminal<CR>')
@@ -157,6 +186,7 @@ vim.keymap.set('n', '<leader>fo', builtin.oldfiles)
 vim.keymap.set('n', '<leader>fg', builtin.live_grep)
 vim.keymap.set('n', '<leader>fb', builtin.buffers)
 vim.keymap.set('n', '<leader>fh', builtin.help_tags)
+vim.keymap.set('n', '<leader>fc', builtin.commands)
 
 
 --user settings files
@@ -169,6 +199,7 @@ require('mason').setup()
 require('mason-lspconfig').setup()
 require('nvim-web-devicons').setup()
 require('netrw').setup()
+require('mini.move').setup()
 
 require('lualine').setup {
   sections = {
@@ -290,7 +321,16 @@ require('nvim-treesitter.configs').setup {
 
 -- lsp stuff
 
--- require 'lspconfig'.pylsp.setup {}
+require("conform").setup({
+  formatters_by_ft = {
+    lua = { "stylua" },
+    -- Conform will run multiple formatters sequentially
+    python = { "autopep8", "flake8" },
+    -- Use a sub-list to run only the first available formatter
+    rust = { 'rustfmt' },
+  },
+})
+
 require 'lspconfig'.pyright.setup {}
 
 require('lspconfig').clangd.setup {}
