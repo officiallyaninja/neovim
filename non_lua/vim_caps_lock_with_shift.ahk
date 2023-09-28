@@ -1,4 +1,6 @@
-﻿g_LastCtrlKeyDownTime := 0
+﻿#SingleInstance Ignore
+
+g_LastCtrlKeyDownTime := 0
 g_AbortSendEsc := false
 g_ControlRepeatDetected := false
 

@@ -247,6 +247,7 @@ TS.compilers = { "zig", "gcc", "clang" }
 require("project_nvim").setup {
   patterns = { ".git", "_darcs", ".hg", ".bzr", ".svn", "Makefile", "package.json", "Cargo.toml" },
   silent_chdir = false,
+  ignore_lsp = { "lua_ls" },
 }
 require('telescope').load_extension('projects')
 
@@ -412,6 +413,7 @@ vim.diagnostic.config({
 
 -- opts
 vim.opt.mouse = 'a'
+-- vim.opt.autochdir = true
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
 vim.opt.hlsearch = false
@@ -434,6 +436,15 @@ vim.api.nvim_create_autocmd('BufWinEnter', {
     vim.opt.number = true
 
     vim.cmd(":set signcolumn=yes")
+  end
+})
+
+-- this start the ahk script
+-- will need to be modified if i ever start using linux
+vim.api.nvim_create_autocmd('VimEnter', {
+  callback = function(event)
+    local path = "C:/Users/Ninja/AppData/Local/nvim/non_lua/vim_caps_lock_with_shift.ahk"
+    vim.cmd("silent !start " .. path)
   end
 })
 
