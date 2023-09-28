@@ -121,6 +121,7 @@ lazy.setup({
     'stevearc/conform.nvim',
     opts = {},
   },
+  { "ahmedkhalf/project.nvim" },
 })
 
 
@@ -147,8 +148,8 @@ vim.keymap.set({ 'n', 'v' }, 'J', '5j')                   -- scroll down
 vim.keymap.set({ 'n', 'v' }, 'K', '5k')                   -- scroll up
 
 vim.keymap.set('', '<leader>w', '<cmd>w<cr>')             -- save
-vim.keymap.set('', '<leader>q', '<cmd>Bwipeout<cr>')      -- wipeout buffer
-vim.keymap.set('', '<leader>Q', '<cmd>q<cr>')             -- close buffer
+vim.keymap.set('', '<leader>Q', '<cmd>qa<cr>')            -- wipeout buffer
+vim.keymap.set('', '<leader>q', '<cmd>q<cr>')             -- close buffer
 vim.keymap.set('', '<leader>e', '<cmd>Oil<cr>')           -- open netrw file explorer
 vim.keymap.set('', 'H', '^')                              -- move to start of line
 vim.keymap.set('', 'L', '$')                              -- move to end of line
@@ -176,6 +177,7 @@ vim.keymap.set({ 'n', 'i' }, '<C-_>', 'gcc', { remap = true })
 vim.keymap.set('x', '<C-_>', 'gc', { remap = true })
 
 local builtin = require('telescope.builtin')
+local extensions = require('telescope').extensions
 
 
 vim.keymap.set('n', '<leader>ff', builtin.find_files)
@@ -187,6 +189,7 @@ vim.keymap.set('n', '<leader>fg', builtin.live_grep)
 vim.keymap.set('n', '<leader>fb', builtin.buffers)
 vim.keymap.set('n', '<leader>fh', builtin.help_tags)
 vim.keymap.set('n', '<leader>fc', builtin.commands)
+vim.keymap.set('n', '<leader>fp', extensions.projects.projects)
 
 
 --user settings files
@@ -239,6 +242,13 @@ require('nvim-treesitter.configs').setup({
 TS = require('nvim-treesitter.install')
 TS.prefer_git = false
 TS.compilers = { "zig", "gcc", "clang" }
+
+
+require("project_nvim").setup {
+  patterns = { ".git", "_darcs", ".hg", ".bzr", ".svn", "Makefile", "package.json", "Cargo.toml" },
+  silent_chdir = false,
+}
+require('telescope').load_extension('projects')
 
 
 -- theme
