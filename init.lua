@@ -1,7 +1,5 @@
 -- TODO:
---    think about using wilder
---    set up lsp border
---    make it so enter doesnt ever auto correct
+--    set up lsp border?
 
 local lazy = {}
 
@@ -129,12 +127,12 @@ lazy.setup({
 			"anuvyklack/animation.nvim",
 		},
 	},
+	{ "dense-analysis/ale" },
 })
 -- end of plugins
 
 -- remaps / keybindings
 vim.g.mapleader = " " -- set space to be the <leader> key
-vim.keymap.set("n", "<leader>s", "<C-w>") -- window(split) options
 vim.keymap.set("n", "<leader>vim", "<cmd>e $MYVIMRC<cr>") -- open init.lua
 vim.keymap.set("n", "U", "<C-r>") -- redo
 vim.keymap.set("n", "<C-j>", "<C-w>j")
@@ -146,6 +144,8 @@ vim.keymap.set("n", "n", "nzz")
 vim.keymap.set("n", "N", "Nzz")
 vim.keymap.set("n", "<C-d>", "<C-d>zz")
 vim.keymap.set("n", "<C-u>", "<C-u>zz")
+vim.keymap.set("n", "<C-o>", "<C-o>zz")
+vim.keymap.set("n", "<C-i>", "<C-i>zz")
 
 vim.keymap.set({ "n", "v" }, "<leader>p", '"+p') -- paste from system clipboard
 vim.keymap.set({ "n", "v" }, "<leader>P", '"+P') -- paste from system clipboard
@@ -173,7 +173,7 @@ vim.keymap.set("", "<leader>m", "@") -- call macro
 
 --vim.keymap.set('n', '<leader>t', '<cmd>terminal<CR>')
 -- vim.keymap.set('t', '<C-t>', '<C-\\><C-n><CMD>lua require("FTerm").toggle()<CR>')
-terminal = require("FTerm")
+local terminal = require("FTerm")
 vim.keymap.set({ "n", "t" }, "<C-t>", terminal.toggle)
 vim.keymap.set("t", "<Esc>", "<C-\\><C-n>")
 function terminal:restart()
@@ -259,7 +259,7 @@ TS.compilers = { "zig", "gcc", "clang" }
 
 require("project_nvim").setup({
 	detection_methods = { "pattern", "lsp" },
-	patterns = { ".git" },
+	patterns = { ".git", ".exercism" },
 	silent_chdir = false,
 	ignore_lsp = { "lua_ls" },
 })
@@ -274,6 +274,7 @@ vim.opt.termguicolors = true
 vim.cmd.colorscheme("onedark")
 vim.cmd([[highlight IndentBlanklineContextChar guifg=#C678DD gui=nocombine]])
 vim.cmd([[highlight IndentBlanklineContextStart guisp=#C678DD gui=underline]])
+vim.g.indent_blankline_buftype_exclude = { "nofile" }
 
 local actions = require("telescope.actions")
 
@@ -441,6 +442,8 @@ vim.diagnostic.config({
 		source = "always",
 	},
 })
+
+-- testing
 
 -- opts
 vim.opt.mouse = "a"
