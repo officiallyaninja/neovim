@@ -1,5 +1,8 @@
 -- TODO:
 --    set up lsp border?
+--    re-add neoscorll
+--    better auto pairs if required
+--    make diagnostics appear without having to edit
 
 local lazy = {}
 
@@ -34,7 +37,7 @@ lazy.setup({
 	{ "nvim-lualine/lualine.nvim" },
 	{ "nvim-tree/nvim-web-devicons" },
 	{ "prichrd/netrw.nvim" },
-	-- { 'karb94/neoscroll.nvim' },
+	{ "karb94/neoscroll.nvim" },
 	{ "lukas-reineke/indent-blankline.nvim" },
 	{ "tpope/vim-repeat" },
 	{ "nvim-lua/plenary.nvim" },
@@ -79,7 +82,6 @@ lazy.setup({
 	{ "williamboman/mason-lspconfig.nvim" },
 	{ "kosayoda/nvim-lightbulb" },
 	{ "stevearc/dressing.nvim" },
-	{ "cohama/lexima.vim" },
 	{
 		"numToStr/Comment.nvim",
 		lazy = false,
@@ -153,8 +155,8 @@ vim.keymap.set({ "n", "v" }, "<leader>y", '"+y') -- copy to system clipboard
 vim.keymap.set({ "n", "v" }, "<leader>Y", '"+Y') -- copy to system clipboard
 vim.keymap.set({ "n", "v" }, "<leader>d", '"_d') -- cut to Black hole
 vim.keymap.set({ "n", "v" }, "<leader>D", '"_D') -- cut to Black hole
-vim.keymap.set({ "n", "v" }, "J", "G")
-vim.keymap.set({ "n", "v" }, "K", "gg")
+vim.keymap.set({ "n", "v" }, "G", "Gzz")
+vim.keymap.set({ "n", "v" }, "gg", "ggzz")
 
 vim.keymap.set("v", '"R', '"_d"')
 
@@ -190,8 +192,10 @@ vim.keymap.set("i", "<M-t>", "*")
 vim.keymap.set("i", "<M-e>", "=")
 vim.keymap.set("i", "<M-b>", "\\")
 
-vim.keymap.set({ "n", "i" }, "<C-_>", "gcc", { remap = true })
+vim.keymap.set("c", "<C-j>", "<C-n>", { remap = true })
+vim.keymap.set("c", "<C-k>", "<C-p>", { remap = true })
 
+vim.keymap.set({ "n", "i" }, "<C-_>", "gcc", { remap = true })
 vim.keymap.set("x", "<C-_>", "gc", { remap = true })
 
 local builtin = require("telescope.builtin")
@@ -230,7 +234,7 @@ require("onedark").setup({
 	style = "cool",
 })
 require("onedark").load()
--- require('neoscroll').setup()
+require("neoscroll").setup()
 require("oil").setup()
 require("Comment").setup()
 require("telescope").load_extension("fzf")
