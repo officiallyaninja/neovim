@@ -130,6 +130,7 @@ lazy.setup({
 		},
 	},
 	{ "dense-analysis/ale" },
+	{ "tpope/vim-dadbod" },
 })
 -- end of plugins
 
