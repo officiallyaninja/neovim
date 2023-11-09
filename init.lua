@@ -370,6 +370,9 @@ require("conform").setup({
 		javascript = { "prettier" },
 	},
 })
+require("conform").formatters.rustfmt = {
+	command = "cargo fmt",
+}
 
 require("lspconfig").pylsp.setup({})
 
