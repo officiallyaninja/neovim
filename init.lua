@@ -129,8 +129,38 @@ lazy.setup({
 			"anuvyklack/animation.nvim",
 		},
 	},
-	{ "dense-analysis/ale" },
+	{
+		"dense-analysis/ale",
+		config = function()
+			-- Configuration goes here.
+			local g = vim.g
+
+			-- g.ale_linters = {
+			-- 	rust = { "rustc" },
+			-- }
+		end,
+	},
 	{ "tpope/vim-dadbod" },
+	{ "windwp/nvim-autopairs" },
+
+	{
+		"romgrk/barbar.nvim",
+		dependencies = {
+			"lewis6991/gitsigns.nvim", -- OPTIONAL: for git status
+			"nvim-tree/nvim-web-devicons", -- OPTIONAL: for file icons
+		},
+		init = function()
+			vim.g.barbar_auto_setup = false
+		end,
+		opts = {
+			-- lazy.nvim will automatically call setup for you. put your options here, anything missing will use the default:
+			-- animation = true,
+			-- insert_at_start = true,
+			-- …etc.
+		},
+		version = "^1.0.0", -- optional: only update when a new 1.x version is released
+	},
+	{ "RRethy/vim-illuminate" },
 })
 -- end of plugins
 
@@ -162,20 +192,12 @@ vim.keymap.set({ "n", "v" }, "gg", "ggzz")
 vim.keymap.set("v", '"R', '"_d"')
 
 vim.keymap.set("", "<leader>w", "<cmd>w<cr>") -- save
-vim.keymap.set("", "<leader>Q", "<cmd>qa<cr>") -- wipeout buffer
-vim.keymap.set("", "<leader>q", "<cmd>q<cr>") -- close buffer
+-- vim.keymap.set("", "<leader>q", "<cmd>q<cr>") -- close buffer
 vim.keymap.set("", "<leader>e", "<cmd>Oil<cr>") -- open netrw file explorer
 vim.keymap.set("", "H", "^") -- move to start of line
 vim.keymap.set("", "L", "$") -- move to end of line
 vim.keymap.set("", "<leader>m", "@") -- call macro
 
--- vim.keymap.set({ 'n', 'i' }, '<M-Down>', '<cmd>m .+1<CR>') -- move line down
--- vim.keymap.set({ 'n', 'i' }, '<M-j>', '<cmd>m .+1<CR>')
--- vim.keymap.set({ 'n', 'i' }, '<M-Up>', '<cmd>m .-2<CR>')   -- move line up
--- vim.keymap.set({ 'n', 'i' }, '<M-k>', '<cmd>m .-2<CR>')
-
---vim.keymap.set('n', '<leader>t', '<cmd>terminal<CR>')
--- vim.keymap.set('t', '<C-t>', '<C-\\><C-n><CMD>lua require("FTerm").toggle()<CR>')
 local terminal = require("FTerm")
 vim.keymap.set({ "n", "t" }, "<C-t>", terminal.toggle)
 vim.keymap.set("t", "<Esc>", "<C-\\><C-n>")
@@ -185,13 +207,6 @@ function terminal:restart()
 end
 
 vim.keymap.set("t", "<C-r>", terminal.restart)
-
-vim.keymap.set("i", "<M-r>", "&")
-vim.keymap.set("i", "<M-p>", "+")
-vim.keymap.set("i", "<M-m>", "-")
-vim.keymap.set("i", "<M-t>", "*")
-vim.keymap.set("i", "<M-e>", "=")
-vim.keymap.set("i", "<M-b>", "\\")
 
 vim.keymap.set("c", "<C-j>", "<C-n>", { remap = true })
 vim.keymap.set("c", "<C-k>", "<C-p>", { remap = true })
@@ -213,6 +228,31 @@ vim.keymap.set("n", "<leader>fb", builtin.buffers)
 vim.keymap.set("n", "<leader>fh", builtin.help_tags)
 vim.keymap.set("n", "<leader>fc", builtin.commands)
 vim.keymap.set("n", "<leader>fp", extensions.projects.projects)
+
+--tab stuff
+-- Move to previous/next
+vim.api.nvim_set_keymap("n", "<A-,>", "<Cmd>BufferPrevious<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<A-.>", "<Cmd>BufferNext<CR>", { noremap = true, silent = true })
+-- Re-order to previous/next
+vim.api.nvim_set_keymap("n", "<A-<>", "<Cmd>BufferMovePrevious<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<A->>", "<Cmd>BufferMoveNext<CR>", { noremap = true, silent = true })
+-- Goto buffer in position...
+vim.api.nvim_set_keymap("n", "<A-1>", "<Cmd>BufferGoto 1<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<A-2>", "<Cmd>BufferGoto 2<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<A-3>", "<Cmd>BufferGoto 3<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<A-4>", "<Cmd>BufferGoto 4<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<A-5>", "<Cmd>BufferGoto 5<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<A-6>", "<Cmd>BufferGoto 6<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<A-7>", "<Cmd>BufferGoto 7<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<A-8>", "<Cmd>BufferGoto 8<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<A-9>", "<Cmd>BufferGoto 9<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<A-0>", "<Cmd>BufferLast<CR>", { noremap = true, silent = true })
+-- Pin/unpin buffer
+vim.api.nvim_set_keymap("n", "<A-p>", "<Cmd>BufferPin<CR>", { noremap = true, silent = true })
+-- Close buffer
+vim.api.nvim_set_keymap("n", "<leader>q", "<Cmd>BufferClose<CR>", { noremap = true, silent = true })
+vim.keymap.set("", "<leader>Q", "<Cmd>close<CR>")
+vim.api.nvim_set_keymap("n", "<A-s>", "<Cmd>BufferPick<CR>", { noremap = true, silent = true })
 
 --user settings files
 require("user.leap")
@@ -236,7 +276,30 @@ require("onedark").setup({
 })
 require("onedark").load()
 require("neoscroll").setup()
-require("oil").setup()
+require("oil").setup({
+	view_options = { show_hidden = true },
+	keymaps = {
+		-- ["<C-h>"] = "actions.select_split",
+		-- ["<C-t>"] = "actions.select_tab",
+		-- ["<C-l>"] = "actions.refresh",
+		["g?"] = "actions.show_help",
+		["<CR>"] = "actions.select",
+		["<C-s>"] = "actions.select_vsplit",
+		["<C-h>"] = false,
+		["<C-t>"] = false,
+		["<C-p>"] = "actions.preview",
+		["<C-c>"] = "actions.close",
+		["<C-l>"] = false,
+		["-"] = "actions.parent",
+		["_"] = "actions.open_cwd",
+		["`"] = "actions.cd",
+		["~"] = "actions.tcd",
+		["gs"] = "actions.change_sort",
+		["gx"] = "actions.open_external",
+		["g."] = "actions.toggle_hidden",
+		["g\\"] = "actions.toggle_trash",
+	},
+})
 require("Comment").setup()
 require("telescope").load_extension("fzf")
 
@@ -248,6 +311,10 @@ require("FTerm").setup({
 
 require("nvim-lightbulb").setup({
 	autocmd = { enabled = true },
+})
+
+require("nvim-autopairs").setup({
+	disable_filetype = { "TelescopePrompt", "vim" },
 })
 
 require("nvim-treesitter.configs").setup({
@@ -265,7 +332,7 @@ TS.compilers = { "zig", "gcc", "clang" }
 require("project_nvim").setup({
 	detection_methods = { "pattern", "lsp" },
 	patterns = { ".git", ".exercism" },
-	silent_chdir = false,
+	silent_chdir = true,
 	ignore_lsp = { "lua_ls" },
 })
 
@@ -368,6 +435,7 @@ require("conform").setup({
 		-- Use a sub-list to run only the first available formatter
 		rust = { "rustfmt" },
 		javascript = { "prettier" },
+		svelte = { "prettier" },
 	},
 })
 require("conform").formatters.rustfmt = {
@@ -375,6 +443,7 @@ require("conform").formatters.rustfmt = {
 }
 
 require("lspconfig").pylsp.setup({})
+require("lspconfig").pyright.setup({})
 
 require("lspconfig").clangd.setup({})
 -- vim.cmd [[autocmd BufWritePre * lua vim.lsp.buf.format()]] -- format on save
@@ -391,7 +460,7 @@ rt.setup({
 	server = {
 		on_attach = function(_, bufnr)
 			-- Hover actions
-			vim.keymap.set("n", "<C-space>", rt.hover_actions.hover_actions, { buffer = bufnr })
+			im.keymap.set("n", "<C-space>", rt.hover_actions.hover_actions, { buffer = bufnr })
 			-- Code action groups
 			vim.keymap.set("n", "<Leader>a", rt.code_action_group.code_action_group, { buffer = bufnr })
 		end,
@@ -412,6 +481,24 @@ require("lspconfig").lua_ls.setup({
 lspconfig.rust_analyzer.setup({})
 require("luasnip.loaders.from_vscode").lazy_load()
 
+lspconfig.svelte.setup({
+	-- Add filetypes for the server to run and share info between files
+	-- filetypes = {
+	-- 	--[[ "javascript" , "typescript",]]
+	"svelte",
+	-- 	"html",
+	-- 	"css",
+	-- },
+})
+lspconfig.tailwindcss.setup({})
+lspconfig.unocss.setup({})
+
+vim.filetype.add({
+	extension = {
+		postcss = "css",
+	},
+})
+
 lspconfig.eslint.setup({
 	--- ...
 	on_attach = function(client, bufnr)
@@ -422,7 +509,7 @@ lspconfig.eslint.setup({
 	end,
 })
 
-require("lspconfig").tsserver.setup({})
+lspconfig.tsserver.setup({})
 
 local sign = function(opts)
 	vim.fn.sign_define(opts.name, {
@@ -451,6 +538,21 @@ vim.diagnostic.config({
 	},
 })
 
+---- vim-illuminate
+-- change the highlight style
+vim.api.nvim_set_hl(0, "IlluminatedWordText", { link = "Visual" })
+vim.api.nvim_set_hl(0, "IlluminatedWordRead", { link = "Visual" })
+vim.api.nvim_set_hl(0, "IlluminatedWordWrite", { link = "Visual" })
+
+--- auto update the highlight style on colorscheme change
+vim.api.nvim_create_autocmd({ "ColorScheme" }, {
+	pattern = { "*" },
+	callback = function(ev)
+		vim.api.nvim_set_hl(0, "IlluminatedWordText", { link = "Visual" })
+		vim.api.nvim_set_hl(0, "IlluminatedWordRead", { link = "Visual" })
+		vim.api.nvim_set_hl(0, "IlluminatedWordWrite", { link = "Visual" })
+	end,
+})
 -- testing
 
 -- opts
@@ -465,6 +567,7 @@ vim.opt.tabstop = 2
 vim.opt.shiftwidth = 2
 vim.opt.expandtab = true -- change later? idk doesn't really matter
 vim.opt.completeopt = { "menu", "menuone", "noselect" }
+vim.opt.showbreak = "└─▶"
 
 vim.api.nvim_create_autocmd("TextYankPost", {
 	callback = function(event)

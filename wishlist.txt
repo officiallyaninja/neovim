@@ -1,0 +1,14 @@
+things to do when I rewrite my config 
+
+1. make list of plugins/features I like and dislike
+  what to keep vs what to not use
+
+2. make sure startup is fast
+
+3. separate plugins, keybinds etc in a neat and organized way
+
+4. look into customization opportunities
+
+
+minor nitpicks:
+
