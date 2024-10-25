@@ -155,7 +155,6 @@ lazy.setup({
 		version = "^1.0.0", -- optional: only update when a new 1.x version is released
 	},
 	{ "RRethy/vim-illuminate" },
-	{ "HiPhish/rainbow-delimiters.nvim" },
 })
 -- end of plugins
 
@@ -632,13 +631,3 @@ vim.api.nvim_create_autocmd("LspAttach", {
 vim.api.nvim_create_user_command("ChdirToCurrentBuffer", function(opts)
 	vim.cmd(":cd %:h")
 end, {})
-
-vim.api.nvim_create_user_command("CommitConfig", function(opts)
-	-- TODO: change path to a variable
-	vim.cmd(
-		string.format(
-			'!pushd C:\\Users\\Ninja\\AppData\\Local\\nvim && git add . && git commit -m "%s" && git push origin main',
-			opts.fargs[1]
-		)
-	)
-end, { nargs = 1 })

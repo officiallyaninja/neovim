@@ -9,6 +9,12 @@ things to do when I rewrite my config
 
 4. look into customization opportunities
 
+5. Navigation of diagnostics and other things, maybe a hydra minor mode?
+
+6. proper fold support
+
 
 minor nitpicks:
+1. when I close a tab, if the tab is open in another window, then close the buffer instead of the tab
+2. word wrap instead of letter wrap (a word shouldn't get cut off due to wrapping)
 
