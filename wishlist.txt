@@ -13,8 +13,15 @@ things to do when I rewrite my config
 
 6. proper fold support
 
+7. try yazi
+
+8. add numbers to taps so i can easily switch to them
+
+9. disable highlighting word in insert mode and in oil
+
+10. remove mini.move, unnecesaary in vim
 
 minor nitpicks:
-1. when I close a tab, if the tab is open in another window, then close the buffer instead of the tab
+1. when I close a buffer, if the tab is open in another window, then close the window instead of the buffer
 2. word wrap instead of letter wrap (a word shouldn't get cut off due to wrapping)
 

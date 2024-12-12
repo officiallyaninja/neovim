@@ -156,6 +156,16 @@ lazy.setup({
 	},
 	{ "RRethy/vim-illuminate" },
 	{ "HiPhish/rainbow-delimiters.nvim" },
+	{
+		"MeanderingProgrammer/render-markdown.nvim",
+		dependencies = { "nvim-treesitter/nvim-treesitter", "nvim-tree/nvim-web-devicons" }, -- if you prefer nvim-web-devicons
+		---@module 'render-markdown'
+		---@type render.md.UserConfig
+		opts = {},
+	},
+	{ "simrat39/symbols-outline.nvim" },
+	{ "kevinhwang91/promise-async" },
+	{ "kevinhwang91/nvim-ufo", requires = "kevinhwang91/promise-async" },
 })
 -- end of plugins
 
@@ -170,8 +180,6 @@ vim.keymap.set("n", "<C-h>", "<C-w>h")
 
 vim.keymap.set("n", "n", "nzz")
 vim.keymap.set("n", "N", "Nzz")
-vim.keymap.set("n", "<C-d>", "<C-d>zz")
-vim.keymap.set("n", "<C-u>", "<C-u>zz")
 vim.keymap.set("n", "<C-o>", "<C-o>zz")
 vim.keymap.set("n", "<C-i>", "<C-i>zz")
 
@@ -184,13 +192,12 @@ vim.keymap.set({ "n", "v" }, "<leader>D", '"_D') -- cut to Black hole
 vim.keymap.set({ "n", "v" }, "G", "Gzz")
 vim.keymap.set({ "n", "v" }, "gg", "ggzz")
 
-vim.keymap.set("v", '"R', '"_d"')
+vim.keymap.set("v", "p", "P")
+vim.keymap.set("v", "P", "p")
 
 vim.keymap.set("", "<leader>w", "<cmd>w<cr>") -- save
 -- vim.keymap.set("", "<leader>q", "<cmd>q<cr>") -- close buffer
 vim.keymap.set("", "<leader>e", "<cmd>Oil<cr>") -- open netrw file explorer
-vim.keymap.set("", "H", "^") -- move to start of line
-vim.keymap.set("", "L", "$") -- move to end of line
 vim.keymap.set("", "<leader>m", "@") -- call macro
 
 local terminal = require("FTerm")
@@ -206,7 +213,7 @@ vim.keymap.set("t", "<C-r>", terminal.restart)
 vim.keymap.set("c", "<C-j>", "<C-n>", { remap = true })
 vim.keymap.set("c", "<C-k>", "<C-p>", { remap = true })
 
-vim.keymap.set({ "n", "i" }, "<C-_>", "gcc", { remap = true })
+vim.keymap.set("n", "<C-_>", "gcc", { remap = true })
 vim.keymap.set("x", "<C-_>", "gc", { remap = true })
 
 local builtin = require("telescope.builtin")
@@ -224,6 +231,7 @@ vim.keymap.set("n", "<leader>fh", builtin.help_tags)
 vim.keymap.set("n", "<leader>fc", builtin.commands)
 vim.keymap.set("n", "<leader>fp", extensions.projects.projects)
 
+vim.keymap.set("i", "<C-BS>", "<C-w>")
 --tab stuff
 -- Move to previous/next
 vim.api.nvim_set_keymap("n", "<A-,>", "<Cmd>BufferPrevious<CR>", { noremap = true, silent = true })
@@ -252,14 +260,14 @@ vim.api.nvim_set_keymap("n", "<A-s>", "<Cmd>BufferPick<CR>", { noremap = true, s
 --user settings files
 require("user.leap")
 require("user.completion")
-
+require("user.ufo")
 -- setup
 require("mason").setup()
 require("mason-lspconfig").setup()
 require("nvim-web-devicons").setup()
 require("netrw").setup()
 require("mini.move").setup()
-
+require("symbols-outline").setup()
 require("lualine").setup({
 	sections = {
 		lualine_x = { "datetime", "encoding", "fileformat", "filetype" },
@@ -433,9 +441,9 @@ require("conform").setup({
 		svelte = { "prettier" },
 	},
 })
-require("conform").formatters.rustfmt = {
-	command = "cargo fmt",
-}
+-- require("conform").formatters.rustfmt = {
+-- 	command = "cargo fmt",
+-- }
 
 require("lspconfig").pylsp.setup({})
 require("lspconfig").pyright.setup({})
@@ -455,7 +463,7 @@ rt.setup({
 	server = {
 		on_attach = function(_, bufnr)
 			-- Hover actions
-			im.keymap.set("n", "<C-space>", rt.hover_actions.hover_actions, { buffer = bufnr })
+			vim.keymap.set("n", "<C-space>", rt.hover_actions.hover_actions, { buffer = bufnr })
 			-- Code action groups
 			vim.keymap.set("n", "<Leader>a", rt.code_action_group.code_action_group, { buffer = bufnr })
 		end,
@@ -642,3 +650,8 @@ vim.api.nvim_create_user_command("CommitConfig", function(opts)
 		)
 	)
 end, { nargs = 1 })
+
+vim.api.nvim_create_user_command("FoldAllFunctionsRust", function(opts)
+	-- vim.cmd(":%g/fn \\w\\+\\(<.\\+>\\)\\?(.*)/norm zfaf")
+	vim.cmd(":%g/ fn /norm zfaf")
+end, {})
