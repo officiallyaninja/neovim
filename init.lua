@@ -172,7 +172,7 @@ lazy.setup({
 -- remaps / keybindings
 vim.g.mapleader = " " -- set space to be the <leader> key
 vim.keymap.set("n", "<leader>vim", "<cmd>e $MYVIMRC<cr>") -- open init.lua
-vim.keymap.set("n", "U", "<C-r>") -- redo
+vim.keymap.set("n", "U", "<zzC-r>") -- redo
 vim.keymap.set("n", "<C-j>", "<C-w>j")
 vim.keymap.set("n", "<C-k>", "<C-w>k")
 vim.keymap.set("n", "<C-l>", "<C-w>l")
@@ -652,6 +652,7 @@ vim.api.nvim_create_user_command("CommitConfig", function(opts)
 end, { nargs = 1 })
 
 vim.api.nvim_create_user_command("FoldAllFunctionsRust", function(opts)
-	-- vim.cmd(":%g/fn \\w\\+\\(<.\\+>\\)\\?(.*)/norm zfaf")
+	-- vim.cmd(":%g/ fn /norm zfaf")
 	vim.cmd(":%g/ fn /norm zfaf")
+	vim.cmd(":norm ")
 end, {})
