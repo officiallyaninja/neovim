@@ -31,7 +31,7 @@ lazy.setup({
 	{ "nvim-lualine/lualine.nvim" },
 	{ "nvim-tree/nvim-web-devicons" },
 	{ "prichrd/netrw.nvim" },
-	{ "karb94/neoscroll.nvim" },
+	--{ "karb94/neoscroll.nvim" },
 	{ "lukas-reineke/indent-blankline.nvim" },
 	{ "tpope/vim-repeat" },
 	{ "nvim-lua/plenary.nvim" },
@@ -278,7 +278,7 @@ require("onedark").setup({
 	style = "cool",
 })
 require("onedark").load()
-require("neoscroll").setup()
+-- require("neoscroll").setup()
 require("oil").setup({
 	view_options = { show_hidden = true },
 	keymaps = {
@@ -653,6 +653,8 @@ end, { nargs = 1 })
 
 vim.api.nvim_create_user_command("FoldAllFunctionsRust", function(opts)
 	-- vim.cmd(":%g/ fn /norm zfaf")
-	vim.cmd(":%g/ fn /norm zfaf")
+	vim.cmd(":%g/ fn /norm ^zfaf")
 	vim.cmd(":norm ")
 end, {})
+
+vim.api.nvim_set_keymap("n", "zff", "<Cmd>FoldAllFunctionsRust<CR>", { noremap = true, silent = true })
