@@ -1,3 +1,4 @@
+-- TODO: disable auto commenting new lines below commented lines
 local lazy = {}
 
 function lazy.install(path)
@@ -23,7 +24,9 @@ function lazy.setup(plugins)
 end
 
 lazy.path = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-lazy.opts = {}
+lazy.opts = {
+	{ defaults = { lazy = true } },
+}
 
 lazy.setup({
 	{ "navarasu/onedark.nvim" },
@@ -31,7 +34,7 @@ lazy.setup({
 	{ "nvim-lualine/lualine.nvim" },
 	{ "nvim-tree/nvim-web-devicons" },
 	{ "prichrd/netrw.nvim" },
-	--{ "karb94/neoscroll.nvim" },
+	{ "karb94/neoscroll.nvim" },
 	{ "lukas-reineke/indent-blankline.nvim" },
 	{ "tpope/vim-repeat" },
 	{ "nvim-lua/plenary.nvim" },
@@ -101,7 +104,6 @@ lazy.setup({
 			},
 		},
 	},
-	{ "echasnovski/mini.move" },
 	{
 		"akinsho/flutter-tools.nvim",
 		lazy = false,
@@ -172,7 +174,10 @@ lazy.setup({
 -- remaps / keybindings
 vim.g.mapleader = " " -- set space to be the <leader> key
 vim.keymap.set("n", "<leader>vim", "<cmd>e $MYVIMRC<cr>") -- open init.lua
-vim.keymap.set("n", "U", "<zzC-r>") -- redo
+vim.keymap.set("n", "<leader>term", "<cmd>e C:/Users/Ninja/.wezterm.lua<CR>") -- open init.lua
+vim.keymap.set("n", "<leader>gwm", "<cmd>e C:/Users/Ninja/.glzr/glazewm/config.yaml<CR>") -- open init.lua
+
+vim.keymap.set("n", "U", "<C-r>") -- redo
 vim.keymap.set("n", "<C-j>", "<C-w>j")
 vim.keymap.set("n", "<C-k>", "<C-w>k")
 vim.keymap.set("n", "<C-l>", "<C-w>l")
@@ -182,6 +187,8 @@ vim.keymap.set("n", "n", "nzz")
 vim.keymap.set("n", "N", "Nzz")
 vim.keymap.set("n", "<C-o>", "<C-o>zz")
 vim.keymap.set("n", "<C-i>", "<C-i>zz")
+vim.keymap.set("n", "<C-u>", "<C-u>zz")
+vim.keymap.set("n", "<C-d>", "<C-d>zz")
 
 vim.keymap.set({ "n", "v" }, "<leader>p", '"+p') -- paste from system clipboard
 vim.keymap.set({ "n", "v" }, "<leader>P", '"+P') -- paste from system clipboard
@@ -266,11 +273,11 @@ require("mason").setup()
 require("mason-lspconfig").setup()
 require("nvim-web-devicons").setup()
 require("netrw").setup()
-require("mini.move").setup()
 require("symbols-outline").setup()
 require("lualine").setup({
 	sections = {
-		lualine_x = { "datetime", "encoding", "fileformat", "filetype" },
+		-- lualine_x = { "datetime", "encoding", "fileformat", "filetype" },
+		lualine_x = { "filetype" },
 	},
 })
 
@@ -293,7 +300,7 @@ require("oil").setup({
 		["<C-p>"] = "actions.preview",
 		["<C-c>"] = "actions.close",
 		["<C-l>"] = false,
-		["-"] = "actions.parent",
+		["<BS>"] = "actions.parent",
 		["_"] = "actions.open_cwd",
 		["`"] = "actions.cd",
 		["~"] = "actions.tcd",
@@ -587,15 +594,6 @@ vim.api.nvim_create_autocmd("BufWinEnter", {
 	end,
 })
 
--- this start the ahk script
--- will need to be modified if i ever start using linux
-vim.api.nvim_create_autocmd("VimEnter", {
-	callback = function(event)
-		local path = "C:/Users/Ninja/AppData/Local/nvim/non_lua/vim_caps_lock_with_shift.ahk"
-		vim.cmd("silent !start " .. path)
-	end,
-})
-
 local function show_documentation()
 	local filetype = vim.bo.filetype
 	if vim.tbl_contains({ "vim", "help" }, filetype) then
@@ -636,6 +634,13 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		bufmap("n", "]d", "<cmd>lua vim.diagnostic.goto_next()<cr>")
 	end,
 })
+
+-- this start the ahk script
+-- will need to be modified if i ever start using linux
+vim.api.nvim_create_user_command("CapsLockAHK", function(opts)
+	local path = "C:/Users/Ninja/AppData/Local/nvim/non_lua/vim_caps_lock_with_shift.ahk"
+	vim.cmd("silent !start " .. path)
+end, {})
 
 vim.api.nvim_create_user_command("ChdirToCurrentBuffer", function(opts)
 	vim.cmd(":cd %:h")
