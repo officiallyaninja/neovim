@@ -364,6 +364,7 @@ vim.cmd([[highlight IndentBlanklineContextStart guisp=#C678DD gui=underline]])
 vim.g.indent_blankline_buftype_exclude = { "nofile" }
 
 local actions = require("telescope.actions")
+local action_state = require("telescope.actions.state")
 
 require("telescope").setup({
 	defaults = {
