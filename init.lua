@@ -1,4 +1,7 @@
--- TODO: disable auto commenting new lines below commented lines
+-- TODO:
+-- 1. disable auto commenting new lines below commented lines
+-- 2. make lualine show the name of folder as well as the current file
+-- 3. something to show me the contents of my registers to paste (esp numbered ones)
 local lazy = {}
 
 function lazy.install(path)
@@ -14,7 +17,6 @@ function lazy.install(path)
 		})
 	end
 end
-
 function lazy.setup(plugins)
 	-- You can "comment out" the line below after lazy.nvim is installed
 	lazy.install(lazy.path)
@@ -58,7 +60,7 @@ lazy.setup({
 			})
 		end,
 	},
-	{ "moll/vim-bbye" },
+	-- { "moll/vim-bbye" },
 	{ "wellle/targets.vim" },
 	{ "ggandor/leap.nvim" },
 	{
@@ -168,13 +170,14 @@ lazy.setup({
 	{ "simrat39/symbols-outline.nvim" },
 	{ "kevinhwang91/promise-async" },
 	{ "kevinhwang91/nvim-ufo", requires = "kevinhwang91/promise-async" },
+	{ "chaimleib/vim-renpy" },
 })
 -- end of plugins
 
 -- remaps / keybindings
 vim.g.mapleader = " " -- set space to be the <leader> key
 vim.keymap.set("n", "<leader>vim", "<cmd>e $MYVIMRC<cr>") -- open init.lua
-vim.keymap.set("n", "<leader>term", "<cmd>e C:/Users/Ninja/.wezterm.lua<CR>") -- open init.lua
+vim.keymap.set("n", "<leader>wez", "<cmd>e C:/Users/Ninja/.wezterm.lua<CR>") -- open init.lua
 vim.keymap.set("n", "<leader>gwm", "<cmd>e C:/Users/Ninja/.glzr/glazewm/config.yaml<CR>") -- open init.lua
 
 vim.keymap.set("n", "U", "<C-r>") -- redo
@@ -194,8 +197,8 @@ vim.keymap.set({ "n", "v" }, "<leader>p", '"+p') -- paste from system clipboard
 vim.keymap.set({ "n", "v" }, "<leader>P", '"+P') -- paste from system clipboard
 vim.keymap.set({ "n", "v" }, "<leader>y", '"+y') -- copy to system clipboard
 vim.keymap.set({ "n", "v" }, "<leader>Y", '"+Y') -- copy to system clipboard
-vim.keymap.set({ "n", "v" }, "<leader>d", '"_d') -- cut to Black hole
-vim.keymap.set({ "n", "v" }, "<leader>D", '"_D') -- cut to Black hole
+vim.keymap.set({ "n", "v" }, "<leader>d", '"+d')
+vim.keymap.set({ "n", "v" }, "<leader>D", '"+D')
 vim.keymap.set({ "n", "v" }, "G", "Gzz")
 vim.keymap.set({ "n", "v" }, "gg", "ggzz")
 
@@ -203,9 +206,8 @@ vim.keymap.set("v", "p", "P")
 vim.keymap.set("v", "P", "p")
 
 vim.keymap.set("", "<leader>w", "<cmd>w<cr>") -- save
--- vim.keymap.set("", "<leader>q", "<cmd>q<cr>") -- close buffer
 vim.keymap.set("", "<leader>e", "<cmd>Oil<cr>") -- open netrw file explorer
-vim.keymap.set("", "<leader>m", "@") -- call macro
+vim.keymap.set("", "Q", "@") -- call macro
 
 local terminal = require("FTerm")
 vim.keymap.set({ "n", "t" }, "<C-t>", terminal.toggle)
@@ -276,7 +278,10 @@ require("netrw").setup()
 require("symbols-outline").setup()
 require("lualine").setup({
 	sections = {
-		-- lualine_x = { "datetime", "encoding", "fileformat", "filetype" },
+		lualine_c = { {
+			"filename",
+			path = 4,
+		} },
 		lualine_x = { "filetype" },
 	},
 })
@@ -452,13 +457,13 @@ require("conform").setup({
 -- 	command = "cargo fmt",
 -- }
 
-require("lspconfig").pylsp.setup({})
-require("lspconfig").pyright.setup({})
+local lspconfig = require("lspconfig")
+lspconfig.pylsp.setup({})
+lspconfig.pyright.setup({})
 
-require("lspconfig").clangd.setup({})
+lspconfig.clangd.setup({})
 -- vim.cmd [[autocmd BufWritePre * lua vim.lsp.buf.format()]] -- format on save
 
-local lspconfig = require("lspconfig")
 local lsp_defaults = lspconfig.util.default_config
 
 lsp_defaults.capabilities =
@@ -520,6 +525,7 @@ lspconfig.eslint.setup({
 })
 
 lspconfig.tsserver.setup({})
+-- lspconfig.verible.setup({})
 
 local sign = function(opts)
 	vim.fn.sign_define(opts.name, {
@@ -550,9 +556,9 @@ vim.diagnostic.config({
 
 ---- vim-illuminate
 -- change the highlight style
-vim.api.nvim_set_hl(0, "IlluminatedWordText", { link = "Visual" })
-vim.api.nvim_set_hl(0, "IlluminatedWordRead", { link = "Visual" })
-vim.api.nvim_set_hl(0, "IlluminatedWordWrite", { link = "Visual" })
+-- vim.api.nvim_set_hl(0, "IlluminatedWordText", { link = "Visual" })
+-- vim.api.nvim_set_hl(0, "IlluminatedWordRead", { link = "Visual" })
+-- vim.api.nvim_set_hl(0, "IlluminatedWordWrite", { link = "Visual" })
 
 --- auto update the highlight style on colorscheme change
 vim.api.nvim_create_autocmd({ "ColorScheme" }, {
