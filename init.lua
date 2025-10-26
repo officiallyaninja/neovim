@@ -202,9 +202,6 @@ vim.keymap.set({ "n", "v" }, "<leader>D", '"+D')
 vim.keymap.set({ "n", "v" }, "G", "Gzz")
 vim.keymap.set({ "n", "v" }, "gg", "ggzz")
 
-vim.keymap.set("v", "p", "P")
-vim.keymap.set("v", "P", "p")
-
 vim.keymap.set("", "<leader>w", "<cmd>w<cr>") -- save
 vim.keymap.set("", "<leader>e", "<cmd>Oil<cr>") -- open netrw file explorer
 vim.keymap.set("", "Q", "@") -- call macro
