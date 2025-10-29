@@ -182,7 +182,7 @@ vim.keymap.set("n", "<leader>gwm", "<cmd>e C:/Users/Ninja/.glzr/glazewm/config.y
 
 vim.keymap.set("n", "<C-j>", "<C-w>j")
 vim.keymap.set("n", "<C-k>", "<C-w>k")
-vim.keymap.set("n", "<C-l>", "<C-w>l")
+vim.keymap.set("n", "<C-l>", "<C-wul")
 vim.keymap.set("n", "<C-h>", "<C-w>h")
 
 vim.keymap.set("n", "n", "nzz")
@@ -191,6 +191,8 @@ vim.keymap.set("n", "<C-o>", "<C-o>zz")
 vim.keymap.set("n", "<C-i>", "<C-i>zz")
 vim.keymap.set("n", "<C-u>", "<C-u>zz")
 vim.keymap.set("n", "<C-d>", "<C-d>zz")
+vim.keymap.set({ "n", "v" }, "G", "Gzz")
+vim.keymap.set({ "n", "v" }, "gg", "ggzz")
 
 vim.keymap.set({ "n", "v" }, "<leader>p", '"+p') -- paste from system clipboard
 vim.keymap.set({ "n", "v" }, "<leader>P", '"+P') -- paste from system clipboard
@@ -198,12 +200,9 @@ vim.keymap.set({ "n", "v" }, "<leader>y", '"+y') -- copy to system clipboard
 vim.keymap.set({ "n", "v" }, "<leader>Y", '"+Y') -- copy to system clipboard
 vim.keymap.set({ "n", "v" }, "<leader>d", '"+d')
 vim.keymap.set({ "n", "v" }, "<leader>D", '"+D')
-vim.keymap.set({ "n", "v" }, "G", "Gzz")
-vim.keymap.set({ "n", "v" }, "gg", "ggzz")
 
 vim.keymap.set("", "<leader>w", "<cmd>w<cr>") -- save
 vim.keymap.set("", "<leader>e", "<cmd>Oil<cr>") -- open netrw file explorer
-vim.keymap.set("", "Q", "@") -- call macro
 
 local terminal = require("FTerm")
 vim.keymap.set({ "n", "t" }, "<C-t>", terminal.toggle)
@@ -239,28 +238,28 @@ vim.keymap.set("n", "<leader>fp", extensions.projects.projects)
 vim.keymap.set("i", "<C-BS>", "<C-w>")
 --tab stuff
 -- Move to previous/next
-vim.api.nvim_set_keymap("n", "<A-,>", "<Cmd>BufferPrevious<CR>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("n", "<A-.>", "<Cmd>BufferNext<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<M-,>", "<Cmd>BufferPrevious<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<M-.>", "<Cmd>BufferNext<CR>", { noremap = true, silent = true })
 -- Re-order to previous/next
-vim.api.nvim_set_keymap("n", "<A-<>", "<Cmd>BufferMovePrevious<CR>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("n", "<A->>", "<Cmd>BufferMoveNext<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<M-<>", "<Cmd>BufferMovePrevious<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<M->>", "<Cmd>BufferMoveNext<CR>", { noremap = true, silent = true })
 -- Goto buffer in position...
-vim.api.nvim_set_keymap("n", "<A-1>", "<Cmd>BufferGoto 1<CR>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("n", "<A-2>", "<Cmd>BufferGoto 2<CR>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("n", "<A-3>", "<Cmd>BufferGoto 3<CR>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("n", "<A-4>", "<Cmd>BufferGoto 4<CR>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("n", "<A-5>", "<Cmd>BufferGoto 5<CR>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("n", "<A-6>", "<Cmd>BufferGoto 6<CR>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("n", "<A-7>", "<Cmd>BufferGoto 7<CR>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("n", "<A-8>", "<Cmd>BufferGoto 8<CR>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("n", "<A-9>", "<Cmd>BufferGoto 9<CR>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("n", "<A-0>", "<Cmd>BufferLast<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<M-1>", "<Cmd>BufferGoto 1<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<M-2>", "<Cmd>BufferGoto 2<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<M-3>", "<Cmd>BufferGoto 3<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<M-4>", "<Cmd>BufferGoto 4<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<M-5>", "<Cmd>BufferGoto 5<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<M-6>", "<Cmd>BufferGoto 6<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<M-7>", "<Cmd>BufferGoto 7<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<M-8>", "<Cmd>BufferGoto 8<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<M-9>", "<Cmd>BufferGoto 9<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<M-0>", "<Cmd>BufferLast<CR>", { noremap = true, silent = true })
 -- Pin/unpin buffer
-vim.api.nvim_set_keymap("n", "<A-p>", "<Cmd>BufferPin<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<M-p>", "<Cmd>BufferPin<CR>", { noremap = true, silent = true })
 -- Close buffer
 vim.api.nvim_set_keymap("n", "<leader>q", "<Cmd>BufferClose<CR>", { noremap = true, silent = true })
 vim.keymap.set("", "<leader>Q", "<Cmd>close<CR>")
-vim.api.nvim_set_keymap("n", "<A-s>", "<Cmd>BufferPick<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<M-s>", "<Cmd>BufferPick<CR>", { noremap = true, silent = true })
 
 --user settings files
 require("user.leap")
