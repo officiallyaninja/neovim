@@ -66,6 +66,7 @@ lazy.setup({
 	{
 		"nvim-treesitter/nvim-treesitter",
 		build = ":TSUpdate",
+		dependencies = "nushell/tree-sitter-nu",
 	},
 	{ "nvim-treesitter/nvim-treesitter-textobjects" },
 	{ "williamboman/mason.nvim" },
@@ -179,6 +180,7 @@ vim.g.mapleader = " " -- set space to be the <leader> key
 vim.keymap.set("n", "<leader>vim", "<cmd>e $MYVIMRC<cr>") -- open init.lua
 vim.keymap.set("n", "<leader>wez", "<cmd>e C:/Users/Ninja/.wezterm.lua<CR>") -- open init.lua
 vim.keymap.set("n", "<leader>gwm", "<cmd>e C:/Users/Ninja/.glzr/glazewm/config.yaml<CR>") -- open init.lua
+vim.keymap.set("n", "<leader>nus", "<cmd>e C:/Users/Ninja/AppData/Roaming/nushell/config.nu<CR>") -- open init.lua
 
 vim.keymap.set("n", "<C-j>", "<C-w>j")
 vim.keymap.set("n", "<C-k>", "<C-w>k")
