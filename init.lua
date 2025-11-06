@@ -172,6 +172,7 @@ lazy.setup({
 	{ "kevinhwang91/promise-async" },
 	{ "kevinhwang91/nvim-ufo", requires = "kevinhwang91/promise-async" },
 	{ "chaimleib/vim-renpy" },
+	{ "nvim-mini/mini.nvim", version = "*" },
 })
 -- end of plugins
 
@@ -204,7 +205,8 @@ vim.keymap.set({ "n", "v" }, "<leader>d", '"+d')
 vim.keymap.set({ "n", "v" }, "<leader>D", '"+D')
 
 vim.keymap.set("", "<leader>w", "<cmd>w<cr>") -- save
-vim.keymap.set("", "<leader>e", "<cmd>Oil<cr>") -- open netrw file explorer
+vim.keymap.set("", "<leader>E", "<cmd>Oil<cr>") -- open Oil file explorer
+vim.keymap.set("", "<leader>e", "<cmd>lua MiniFiles.open()<cr>") -- open mini files
 
 local terminal = require("FTerm")
 vim.keymap.set({ "n", "t" }, "<C-t>", terminal.toggle)
@@ -312,6 +314,24 @@ require("oil").setup({
 		["g\\"] = "actions.toggle_trash",
 	},
 })
+require("mini.files").setup({
+	mappings = {
+		close = "q",
+		go_in = "L",
+		go_in_plus = "<CR>",
+		go_out = "-",
+		go_out_plus = "H",
+		mark_goto = "'",
+		mark_set = "m",
+		reset = "<BS>",
+		reveal_cwd = "@",
+		show_help = "g?",
+		synchronize = "<leader>w",
+		trim_left = "<",
+		trim_right = ">",
+	},
+})
+
 require("Comment").setup()
 require("telescope").load_extension("fzf")
 
@@ -461,7 +481,6 @@ lspconfig.pylsp.setup({})
 lspconfig.pyright.setup({})
 
 lspconfig.clangd.setup({})
--- vim.cmd [[autocmd BufWritePre * lua vim.lsp.buf.format()]] -- format on save
 
 local lsp_defaults = lspconfig.util.default_config
 
