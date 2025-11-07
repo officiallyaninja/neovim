@@ -140,23 +140,23 @@ lazy.setup({
 	{ "tpope/vim-dadbod" },
 	{ "windwp/nvim-autopairs" },
 
-	{
-		"romgrk/barbar.nvim",
-		dependencies = {
-			"lewis6991/gitsigns.nvim", -- OPTIONAL: for git status
-			"nvim-tree/nvim-web-devicons", -- OPTIONAL: for file icons
-		},
-		init = function()
-			vim.g.barbar_auto_setup = false
-		end,
-		opts = {
-			-- lazy.nvim will automatically call setup for you. put your options here, anything missing will use the default:
-			-- animation = true,
-			-- insert_at_start = true,
-			-- …etc.
-		},
-		version = "^1.0.0", -- optional: only update when a new 1.x version is released
-	},
+	-- {
+	-- 	"romgrk/barbar.nvim",
+	-- 	dependencies = {
+	-- 		"lewis6991/gitsigns.nvim", -- OPTIONAL: for git status
+	-- 		"nvim-tree/nvim-web-devicons", -- OPTIONAL: for file icons
+	-- 	},
+	-- 	init = function()
+	-- 		vim.g.barbar_auto_setup = false
+	-- 	end,
+	-- 	opts = {
+	-- 		-- lazy.nvim will automatically call setup for you. put your options here, anything missing will use the default:
+	-- 		-- animation = true,
+	-- 		-- insert_at_start = true,
+	-- 		-- …etc.
+	-- 	},
+	-- 	version = "^1.0.0", -- optional: only update when a new 1.x version is released
+	-- },
 	{ "RRethy/vim-illuminate" },
 	{ "HiPhish/rainbow-delimiters.nvim" },
 	{
@@ -238,30 +238,30 @@ vim.keymap.set("n", "<leader>fc", builtin.commands)
 vim.keymap.set("n", "<leader>fp", extensions.projects.projects)
 
 vim.keymap.set("i", "<C-BS>", "<C-w>")
---tab stuff
--- Move to previous/next
-vim.api.nvim_set_keymap("n", "<M-,>", "<Cmd>BufferPrevious<CR>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("n", "<M-.>", "<Cmd>BufferNext<CR>", { noremap = true, silent = true })
--- Re-order to previous/next
-vim.api.nvim_set_keymap("n", "<M-<>", "<Cmd>BufferMovePrevious<CR>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("n", "<M->>", "<Cmd>BufferMoveNext<CR>", { noremap = true, silent = true })
--- Goto buffer in position...
-vim.api.nvim_set_keymap("n", "<M-1>", "<Cmd>BufferGoto 1<CR>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("n", "<M-2>", "<Cmd>BufferGoto 2<CR>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("n", "<M-3>", "<Cmd>BufferGoto 3<CR>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("n", "<M-4>", "<Cmd>BufferGoto 4<CR>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("n", "<M-5>", "<Cmd>BufferGoto 5<CR>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("n", "<M-6>", "<Cmd>BufferGoto 6<CR>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("n", "<M-7>", "<Cmd>BufferGoto 7<CR>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("n", "<M-8>", "<Cmd>BufferGoto 8<CR>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("n", "<M-9>", "<Cmd>BufferGoto 9<CR>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("n", "<M-0>", "<Cmd>BufferLast<CR>", { noremap = true, silent = true })
--- Pin/unpin buffer
-vim.api.nvim_set_keymap("n", "<M-p>", "<Cmd>BufferPin<CR>", { noremap = true, silent = true })
--- Close buffer
-vim.api.nvim_set_keymap("n", "<leader>q", "<Cmd>BufferClose<CR>", { noremap = true, silent = true })
-vim.keymap.set("", "<leader>Q", "<Cmd>close<CR>")
-vim.api.nvim_set_keymap("n", "<M-s>", "<Cmd>BufferPick<CR>", { noremap = true, silent = true })
+-- --tab stuff
+-- -- Move to previous/next
+-- vim.api.nvim_set_keymap("n", "<M-,>", "<Cmd>BufferPrevious<CR>", { noremap = true, silent = true })
+-- vim.api.nvim_set_keymap("n", "<M-.>", "<Cmd>BufferNext<CR>", { noremap = true, silent = true })
+-- -- Re-order to previous/next
+-- vim.api.nvim_set_keymap("n", "<M-<>", "<Cmd>BufferMovePrevious<CR>", { noremap = true, silent = true })
+-- vim.api.nvim_set_keymap("n", "<M->>", "<Cmd>BufferMoveNext<CR>", { noremap = true, silent = true })
+-- -- Goto buffer in position...
+-- vim.api.nvim_set_keymap("n", "<M-1>", "<Cmd>BufferGoto 1<CR>", { noremap = true, silent = true })
+-- vim.api.nvim_set_keymap("n", "<M-2>", "<Cmd>BufferGoto 2<CR>", { noremap = true, silent = true })
+-- vim.api.nvim_set_keymap("n", "<M-3>", "<Cmd>BufferGoto 3<CR>", { noremap = true, silent = true })
+-- vim.api.nvim_set_keymap("n", "<M-4>", "<Cmd>BufferGoto 4<CR>", { noremap = true, silent = true })
+-- vim.api.nvim_set_keymap("n", "<M-5>", "<Cmd>BufferGoto 5<CR>", { noremap = true, silent = true })
+-- vim.api.nvim_set_keymap("n", "<M-6>", "<Cmd>BufferGoto 6<CR>", { noremap = true, silent = true })
+-- vim.api.nvim_set_keymap("n", "<M-7>", "<Cmd>BufferGoto 7<CR>", { noremap = true, silent = true })
+-- vim.api.nvim_set_keymap("n", "<M-8>", "<Cmd>BufferGoto 8<CR>", { noremap = true, silent = true })
+-- vim.api.nvim_set_keymap("n", "<M-9>", "<Cmd>BufferGoto 9<CR>", { noremap = true, silent = true })
+-- vim.api.nvim_set_keymap("n", "<M-0>", "<Cmd>BufferLast<CR>", { noremap = true, silent = true })
+-- -- Pin/unpin buffer
+-- vim.api.nvim_set_keymap("n", "<M-p>", "<Cmd>BufferPin<CR>", { noremap = true, silent = true })
+-- -- Close buffer
+-- vim.api.nvim_set_keymap("n", "<leader>q", "<Cmd>BufferClose<CR>", { noremap = true, silent = true })
+-- vim.keymap.set("", "<leader>Q", "<Cmd>close<CR>")
+-- vim.api.nvim_set_keymap("n", "<M-s>", "<Cmd>BufferPick<CR>", { noremap = true, silent = true })
 
 --user settings files
 require("user.leap")
