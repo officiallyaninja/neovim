@@ -13,13 +13,14 @@ things to do when I rewrite my config
 
 6. proper fold support
 
-7. try yazi
+7. render markdown
 
-8. add numbers to taps so i can easily switch to them
+8. add numbers to tabs so i can easily switch to them
+      - just use fing buffers?
 
 9. disable highlighting word in insert mode and in oil
 
-10. remove mini.move, unnecesaary in vim
+10. add helpview.nvim
 
 minor nitpicks:
 1. when I close a buffer, if the tab is open in another window, then close the window instead of the buffer
