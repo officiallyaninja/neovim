@@ -1,5 +1,3 @@
-vim.keymap.set("n", "<leader>vim", "<cmd>e $MYVIMRC<cr>") -- open init.lua
-vim.keymap.set("n", "<leader>vim", "<cmd>e $MYVIMRC<cr>") -- open init.lua
 -- vim.keymap.set("n", "<leader>wez", "<cmd>e C:/Users/Ninja/.wezterm.lua<CR>") -- open init.lua
 -- vim.keymap.set("n", "<leader>gwm", "<cmd>e C:/Users/Ninja/.glzr/glazewm/config.yaml<CR>") -- open init.lua
 -- vim.keymap.set("n", "<leader>nus", "<cmd>e C:/Users/Ninja/AppData/Roaming/nushell/config.nu<CR>") -- open init.lua
@@ -21,7 +19,7 @@ vim.keymap.set({ "n", "v" }, "<leader>y", '"+y') -- copy to system clipboard
 vim.keymap.set({ "n", "v" }, "<leader>Y", '"+Y') -- copy to system clipboard
 vim.keymap.set({ "n", "v" }, "<leader>d", '"+d')
 vim.keymap.set({ "n", "v" }, "<leader>D", '"+D')
-vim.keymap.set("", "<leader>w", "<cmd>w<cr>") -- save
+vim.keymap.set("n", "<leader>w", "<cmd>w<cr>", { nowait = true, desc = "Save" })
 -- vim.keymap.set({ "n", "t" }, "<C-t>", terminal.toggle)
 -- vim.keymap.set("t", "<Esc>", "<C-\\><C-n>")
 -- vim.keymap.set("t", "<C-r>", terminal.restart)
@@ -39,3 +37,9 @@ vim.keymap.set("x", "<C-_>", "gc", { remap = true })
 -- vim.keymap.set("n", "<leader>fc", builtin.commands)
 -- vim.keymap.set("n", "<leader>fp", extensions.projects.projects)
 vim.keymap.set("i", "<C-BS>", "<C-w>")
+
+vim.keymap.set("n", "<leader>i", function()
+  local bufnr = vim.api.nvim_get_current_buf()
+  local enabled = vim.lsp.inlay_hint.is_enabled({ bufnr = bufnr })
+  vim.lsp.inlay_hint.enable(not enabled, { bufnr = bufnr })
+end, { desc = "Toggle inlay hints" })

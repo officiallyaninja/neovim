@@ -1,5 +1,5 @@
 -- mini.deps
-deps.add({ source = "folke/snacks.nvim" })
+Deps.add({ source = "folke/snacks.nvim" })
 
 local opts = {
   picker = require("plugins.snacks.picker"),

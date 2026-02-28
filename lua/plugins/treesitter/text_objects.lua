@@ -1,7 +1,7 @@
 -- lua/plugins/treesitter_textobjects_keymaps.lua
 -- Fully explicit mappings (no loops, no tables generating mappings)
 
-deps.add({
+Deps.add({
   source = "nvim-treesitter/nvim-treesitter-textobjects",
   depends = {
     { source = "nvim-treesitter/nvim-treesitter" },
@@ -54,11 +54,11 @@ vim.keymap.set({ "x", "o" }, "io", function()
 end, { desc = "TS Select: Loop inner" })
 
 -- Conditional: ad / id
-vim.keymap.set({ "x", "o" }, "ad", function()
+vim.keymap.set({ "x", "o" }, "aC", function()
   ts_select.select_textobject("@conditional.outer", "textobjects")
 end, { desc = "TS Select: Conditional outer" })
 
-vim.keymap.set({ "x", "o" }, "id", function()
+vim.keymap.set({ "x", "o" }, "iC", function()
   ts_select.select_textobject("@conditional.inner", "textobjects")
 end, { desc = "TS Select: Conditional inner" })
 
@@ -148,11 +148,11 @@ vim.keymap.set({ "n", "x", "o" }, "]z", function()
 end, { desc = "TS Move: next fold start" })
 
 -- Conditional (closest edge): ]d [d
-vim.keymap.set({ "n", "x", "o" }, "]d", function()
+vim.keymap.set({ "n", "x", "o" }, "]C", function()
   ts_move.goto_next("@conditional.outer", "textobjects")
 end, { desc = "TS Move: next conditional (closest edge)" })
 
-vim.keymap.set({ "n", "x", "o" }, "[d", function()
+vim.keymap.set({ "n", "x", "o" }, "[C", function()
   ts_move.goto_previous("@conditional.outer", "textobjects")
 end, { desc = "TS Move: prev conditional (closest edge)" })
 

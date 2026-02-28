@@ -1,1 +1,1 @@
-deps.add("tpope/vim-repeat")
+Deps.add("tpope/vim-repeat")

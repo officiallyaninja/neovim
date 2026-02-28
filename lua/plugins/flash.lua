@@ -1,4 +1,4 @@
-deps.add("folke/flash.nvim")
+Deps.add("folke/flash.nvim")
 require('flash').setup({
   -- labels = "abcdefghijklmnopqrstuvwxyz",
   labels = "asdfghjklqwertyuiopzxcvbnm",

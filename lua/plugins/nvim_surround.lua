@@ -1,1 +1,1 @@
-deps.add("kylechui/nvim-surround")
+Deps.add("kylechui/nvim-surround")

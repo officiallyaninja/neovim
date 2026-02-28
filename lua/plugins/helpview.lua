@@ -1,1 +1,1 @@
-deps.add("OXY2DEV/helpview.nvim")
+Deps.add("OXY2DEV/helpview.nvim")

@@ -1,5 +1,3 @@
-M = {}
-
 require('plugins.colorscheme')
 require('plugins.oil')
 -- require('plugins.flash')
@@ -9,6 +7,5 @@ require('plugins.snacks')
 require('plugins.nvim_surround')
 require('plugins.treesitter')
 require('plugins.helpview')
-
-
-return M
+require('plugins.lsp')
+require('plugins.mini_icons')

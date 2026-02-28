@@ -1,4 +1,4 @@
-deps.add({ source = "nvim-mini/mini.surround" })
+Deps.add({ source = "nvim-mini/mini.surround" })
 require("mini.surround").setup({
   mappings = {
     add = "ys",

@@ -1,14 +1,14 @@
 vim.g.mapleader = " " -- set space to be the <leader> key
 -- deps is non local (global) so other modules main can reference it
-deps = require('mini_deps')
+Deps = require('plugins.mini_deps')
 
-if not deps then
+if not Deps then
   error("deps is nil")
   return
 end
 
-require('keymaps')
-local main = require('main')
+require('vanilla')
+require('plugins')
 
 
 vim.o.winwidth = 20
@@ -30,10 +30,10 @@ vim.opt.expandtab = true -- change later? idk doesn't really matter
 vim.opt.completeopt = { "menu", "menuone", "noselect" }
 vim.opt.showbreak = "└─▶"
 
-local augroup = vim.api.nvim_create_augroup('user_cmds', {clear = true})
+local augroup = vim.api.nvim_create_augroup('user_cmds', { clear = true })
 
 vim.api.nvim_create_autocmd('FileType', {
-  pattern = {'help', 'man'},
+  pattern = { 'help', 'man' },
   group = augroup,
   desc = 'Use q to close the window',
   command = 'nnoremap <buffer> q <cmd>quit<cr>'
@@ -43,6 +43,6 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   group = augroup,
   desc = 'Highlight on yank',
   callback = function(event)
-    vim.highlight.on_yank({higroup = 'Visual', timeout = 200})
+    vim.highlight.on_yank({ higroup = 'Visual', timeout = 200 })
   end
 })
