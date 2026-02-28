@@ -1,9 +1,14 @@
 M = {}
-M.colorscheme = require('plugins.colorscheme')
-M.oil         = require('plugins.oil')
--- M.flash       = require('plugins.flash')
-M.leap       = require('plugins.leap')
-M.snacks     = require('plugins.snacks')
+
+require('plugins.colorscheme')
+require('plugins.oil')
+-- require('plugins.flash')
+require('plugins.leap')
+require('plugins.snacks')
+-- require('plugins.mini_surround')
+require('plugins.nvim_surround')
+require('plugins.treesitter')
+require('plugins.helpview')
 
 
 return M
