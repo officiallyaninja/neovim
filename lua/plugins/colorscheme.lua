@@ -1,4 +1,4 @@
-MiniDeps.add('navarasu/onedark.nvim')
+deps.add('navarasu/onedark.nvim')
 
 require('onedark').setup {
     style = 'deep'
