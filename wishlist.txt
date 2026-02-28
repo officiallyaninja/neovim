@@ -5,22 +5,20 @@ things to do when I rewrite my config
 
 2. make sure startup is fast
 
-3. separate plugins, keybinds etc in a neat and organized way
+3. look into customization opportunities
 
-4. look into customization opportunities
+4. Navigation of diagnostics and other things, maybe a hydra minor mode?
 
-5. Navigation of diagnostics and other things, maybe a hydra minor mode?
+5. proper fold support
 
-6. proper fold support
+6. render markdown
 
-7. render markdown
-
-8. add numbers to tabs so i can easily switch to them
+7. add numbers to tabs so i can easily switch to them
       - just use fing buffers?
 
-9. disable highlighting word in insert mode and in oil
+8. disable highlighting word in insert mode and in oil
 
-10. add helpview.nvim
+9. add helpview.nvim
 
 minor nitpicks:
 1. when I close a buffer, if the tab is open in another window, then close the window instead of the buffer
