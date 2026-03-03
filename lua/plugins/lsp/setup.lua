@@ -26,7 +26,4 @@ vim.diagnostic.config({
 })
 
 
-require("plugins.lsp.lsp_config")
-require("plugins.lsp.lsps")
-require("plugins.lsp.conform")
 

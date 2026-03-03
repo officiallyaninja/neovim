@@ -1,44 +1,46 @@
-Deps.add({
-  source = "nvim-treesitter/nvim-treesitter",
-  name = "nvim-treesitter",
-})
+-- ===== ./lua/plugins/treesitter/init.lua =====
+
+-- IMPORTANT: nvim-treesitter main "does not support lazy-loading"
+-- so we load it in Deps.now.
+Deps.add({ source = "nvim-treesitter/nvim-treesitter", checkout = "main" })
 
 Deps.add({
   source = "nvim-treesitter/nvim-treesitter-textobjects",
-  name = "nvim-treesitter-textobjects",
+  checkout = "main",
   depends = {
-    { source = "nvim-treesitter/nvim-treesitter", name = "nvim-treesitter" },
+    { source = "nvim-treesitter/nvim-treesitter", checkout = "main" },
   },
 })
 
 Deps.now(function()
-  -- -- Force them onto runtimepath in this session
-  -- pcall(vim.cmd, "packadd nvim-treesitter")
-  -- pcall(vim.cmd, "packadd nvim-treesitter-textobjects")
-  --
-  -- local ok, configs = pcall(require, "nvim-treesitter.configs")
-  -- if not ok then
-  --   vim.notify(
-  --     "nvim-treesitter still not on runtimepath.\n"
-  --       .. "Look for it here:\n"
-  --       .. vim.fn.stdpath("data")
-  --       .. "/site/pack/**/(start|opt)/nvim-treesitter\n\n"
-  --       .. "runtimepath contains:\n"
-  --       .. table.concat(vim.api.nvim_list_runtime_paths(), "\n"),
-  --     vim.log.levels.ERROR
-  --   )
-  --   return
-  -- end
-  --
-  -- configs.setup({
-  --   highlight = { enable = true },
-  --   indent = { enable = true },
-  --   textobjects = {
-  --     select = { enable = true, lookahead = true },
-  --     move = { enable = true, set_jumps = true },
-  --     swap = { enable = true },
-  --   },
-  -- })
-  --
+  -- nvim-treesitter (new API on main)
+  local ts = require("nvim-treesitter")
+
+  ts.setup({
+    -- Directory to install parsers/queries to (README default)
+    install_dir = vim.fn.stdpath("data") .. "/site",
+  })
+
+  -- Start treesitter highlighting for common filetypes (add/remove as you like)
+  vim.api.nvim_create_autocmd("FileType", {
+    pattern = { "lua", "rust", "vim", "query", "markdown" },
+    callback = function()
+      pcall(vim.treesitter.start)
+    end,
+  })
+
+  -- Treesitter folds (Neovim built-in)
+  vim.api.nvim_create_autocmd("FileType", {
+    pattern = { "lua", "rust", "vim", "query", "markdown" },
+    callback = function()
+      vim.wo.foldmethod = "expr"
+      vim.wo.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+    end,
+  })
+
+  -- Your keymaps (select/move/swap) live here
   require("plugins.treesitter.text_objects")
+
+  -- Optional: install parsers (async). Uncomment if you want auto-bootstrap.
+  -- ts.install({ "lua", "rust", "vim", "query" }):wait(300000)
 end)

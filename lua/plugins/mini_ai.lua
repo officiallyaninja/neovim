@@ -1,0 +1,5 @@
+Deps.add({ source = "nvim-mini/mini.ai", name = "mini.ai" })
+Deps.now(function()
+  pcall(vim.cmd, "packadd mini.ai")
+  require("mini.ai").setup()
+end)
