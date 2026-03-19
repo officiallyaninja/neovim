@@ -1,6 +1,6 @@
 Deps.add('navarasu/onedark.nvim')
 
 require('onedark').setup {
-    style = 'deep'
+    style = 'cool'
 }
 require('onedark').load()

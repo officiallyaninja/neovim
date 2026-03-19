@@ -1,7 +1,5 @@
 -- ===== ./lua/plugins/treesitter/init.lua =====
 
--- IMPORTANT: nvim-treesitter main "does not support lazy-loading"
--- so we load it in Deps.now.
 Deps.add({ source = "nvim-treesitter/nvim-treesitter", checkout = "main" })
 
 Deps.add({
@@ -12,35 +10,27 @@ Deps.add({
   },
 })
 
-Deps.now(function()
-  -- nvim-treesitter (new API on main)
-  local ts = require("nvim-treesitter")
+local ts = require("nvim-treesitter")
 
-  ts.setup({
-    -- Directory to install parsers/queries to (README default)
-    install_dir = vim.fn.stdpath("data") .. "/site",
-  })
+ts.setup({
+  install_dir = vim.fn.stdpath("data") .. "/site",
+})
 
-  -- Start treesitter highlighting for common filetypes (add/remove as you like)
-  vim.api.nvim_create_autocmd("FileType", {
-    pattern = { "lua", "rust", "vim", "query", "markdown" },
-    callback = function()
-      pcall(vim.treesitter.start)
-    end,
-  })
+-- Blocklist for filetypes where Tree-sitter is usually pointless or annoying:
+-- docs/help buffers, quickfix lists, and health-check output.
+local ts_block = { help = true, man = true, qf = true, checkhealth = true }
 
-  -- Treesitter folds (Neovim built-in)
-  vim.api.nvim_create_autocmd("FileType", {
-    pattern = { "lua", "rust", "vim", "query", "markdown" },
-    callback = function()
-      vim.wo.foldmethod = "expr"
-      vim.wo.foldexpr = "v:lua.vim.treesitter.foldexpr()"
-    end,
-  })
+vim.api.nvim_create_autocmd("FileType", {
+  callback = function()
+    if ts_block[vim.bo.filetype] then return end
+    if not pcall(vim.treesitter.start) then return end
 
-  -- Your keymaps (select/move/swap) live here
-  require("plugins.treesitter.text_objects")
+    vim.wo.foldmethod = "expr"
+    vim.wo.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+  end,
+})
 
-  -- Optional: install parsers (async). Uncomment if you want auto-bootstrap.
-  -- ts.install({ "lua", "rust", "vim", "query" }):wait(300000)
-end)
+require("plugins.treesitter.text_objects")
+
+-- Optional: install parsers (async).
+ts.install({ "lua", "rust", "vim", "query", "markdown", "python" }):wait(300000)
