@@ -7,45 +7,57 @@ if not Deps then
   return
 end
 
-require('vanilla.keymaps')
-require('vanilla.root')
+local function load(name)
+  local ok, err = xpcall(function()
+    require(name)
+  end, debug.traceback)
 
-require('vanilla.commands.rcs')
-require('vanilla.commands.gotomodule')
+  if not ok then
+    vim.notify(
+      "Failed loading " .. name .. "\n" .. err,
+      vim.log.levels.ERROR
+    )
+  end
+end
 
-require("vanilla.ui.icons")
-require("vanilla.ui.lsp_highlight")
-require("vanilla.ui.diagnostic_highlight")
-require("vanilla.ui.fold")
+load('vanilla.keymaps')
+load('vanilla.modified_keymaps')
+load('vanilla.root')
 
-require('plugins.colorscheme')
-require('plugins.oil')
--- require('plugins.flash')
-require('plugins.leap')
-require('plugins.snacks')
--- require('plugins.mini_surround')
-require('plugins.nvim_surround')
-require('plugins.treesitter')
-require('plugins.helpview')
-require('plugins.mini_icons')
-require('plugins.tiny_glimmer')
-require('plugins.blink_indent')
-require('plugins.rainbow_delimiters')
-require('plugins.mini_ai')
-require('plugins.mini_pairs')
-require("plugins.auto_indent")
--- require("plugins.mini_statusline")
-require("plugins.lualine")
+load('vanilla.commands.rcs')
+load('vanilla.commands.gotomodule')
 
-require("plugins.lsp.lsp_config")
-require("plugins.lsp.lsps")
-require("plugins.lsp.conform")
-require("plugins.lsp.setup")
+load("vanilla.ui.icons")
+load("vanilla.ui.lsp_highlight")
+load("vanilla.ui.diagnostic_highlight")
+load("vanilla.ui.fold")
+-- load("vanilla.completion")
 
+load('plugins.colorscheme')
+load('plugins.oil')
+-- load('plugins.flash')
+load('plugins.leap')
+load('plugins.snacks')
+-- load('plugins.mini_surround')
+load('plugins.nvim_surround')
+load('plugins.treesitter')
+load('plugins.helpview')
+load('plugins.mini_icons')
+load('plugins.tiny_glimmer')
+load('plugins.blink_indent')
+load('plugins.rainbow_delimiters')
+load('plugins.mini_ai')
+load('plugins.mini_pairs')
+load("plugins.auto_indent")
+-- load("plugins.mini_statusline")
+load("plugins.lualine")
+load("plugins.blink_cmp")
+-- load("plugins.noice") -- Try reenabling in the future
 
-
-
-
+load("plugins.lsp.lsp_config")
+load("plugins.lsp.lsps")
+load("plugins.lsp.conform")
+load("plugins.lsp.setup")
 
 vim.o.winwidth = 20
 vim.o.winminwidth = 20

@@ -18,9 +18,9 @@ vim.api.nvim_create_user_command("GoToModule", function(opts)
 
   if vim.fn.filereadable(path) == 0 then
     vim.fn.writefile({
-      'Deps.add("")',
-      'require("").setup()',
-      'require("' .. mod .. '")',
+      'Deps.add("plugin/github")',
+      'require("plugin_name").setup()',
+      'load("' .. mod .. '") -- put this in init.lua ',
     }, path)
   end
 
@@ -35,7 +35,7 @@ end, {
 
     local lastdot = lead:match("^.*()%.")
     if lastdot then
-      prefix = lead:sub(1, lastdot)      -- includes trailing "."
+      prefix = lead:sub(1, lastdot) -- includes trailing "."
       partial = lead:sub(lastdot + 1)
     end
 

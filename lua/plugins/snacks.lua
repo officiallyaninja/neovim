@@ -21,16 +21,16 @@ local opts = {
     },
     ---@class snacks.picker.matcher.Config
     matcher = {
-      fuzzy = true,        -- use fuzzy matching
-      smartcase = true,    -- use smartcase
-      ignorecase = true,   -- use ignorecase
-      sort_empty = false,  -- sort results when the search string is empty
+      fuzzy = true,          -- use fuzzy matching
+      smartcase = true,      -- use smartcase
+      ignorecase = true,     -- use ignorecase
+      sort_empty = false,    -- sort results when the search string is empty
       filename_bonus = true, -- give bonus for matching file names (last part of the path)
-      file_pos = true,     -- support patterns like `file:line:col` and `file:line`
+      file_pos = true,       -- support patterns like `file:line:col` and `file:line`
       -- the bonusses below, possibly require string concatenation and path normalization,
       -- so this can have a performance impact for large lists and increase memory usage
-      cwd_bonus = false,   -- give bonus for matching files in the cwd
-      frecency = false,    -- frecency bonus
+      cwd_bonus = false,     -- give bonus for matching files in the cwd
+      frecency = false,      -- frecency bonus
       history_bonus = false, -- give more weight to chronological order
     },
     sort = {
@@ -50,20 +50,20 @@ local opts = {
         --- * right: truncate the end of the path
         ---@type "left"|"center"|"right"
         truncate = "center",
-        min_width = 40,      -- minimum length of the truncated path
+        min_width = 40,        -- minimum length of the truncated path
         filename_only = false, -- only show the filename
-        icon_width = 2,      -- width of the icon (in characters)
-        git_status_hl = true, -- use the git status highlight group for the filename
+        icon_width = 2,        -- width of the icon (in characters)
+        git_status_hl = true,  -- use the git status highlight group for the filename
       },
       selected = {
         show_always = false, -- only show the selected column when there are multiple selections
-        unselected = true, -- use the unselected icon for unselected items
+        unselected = true,   -- use the unselected icon for unselected items
       },
       severity = {
-        icons = true, -- show severity icons
+        icons = true,  -- show severity icons
         level = false, -- show severity level
         ---@type "left"|"right"
-        pos = "left", -- position of the diagnostics
+        pos = "left",  -- position of the diagnostics
       },
     },
     ---@class snacks.picker.previewers.Config
@@ -87,18 +87,18 @@ local opts = {
       },
       file = {
         max_size = 1024 * 1024, -- 1MB
-        max_line_length = 500, -- max line length
+        max_line_length = 500,  -- max line length
         ft = nil, ---@type string? filetype for highlighting. Use `nil` for auto detect
       },
       man_pager = nil, ---@type string? MANPAGER env to use for `man` preview
     },
     ---@class snacks.picker.jump.Config
     jump = {
-      jumplist = true, -- save the current position in the jumplist
-      tagstack = false, -- save the current position in the tagstack
+      jumplist = true,   -- save the current position in the jumplist
+      tagstack = false,  -- save the current position in the tagstack
       reuse_win = false, -- reuse an existing window if the buffer is already open
-      close = true,    -- close the picker when jumping/editing to a location (defaults to true)
-      match = false,   -- jump to the first match position. (useful for `lines`)
+      close = true,      -- close the picker when jumping/editing to a location (defaults to true)
+      match = false,     -- jump to the first match position. (useful for `lines`)
     },
     toggles = {
       follow = "f",
@@ -335,12 +335,12 @@ local opts = {
     },
     ---@class snacks.picker.debug
     debug = {
-      scores = false, -- show scores in the list
-      leaks = false,  -- show when pickers don't get garbage collected
+      scores = false,   -- show scores in the list
+      leaks = false,    -- show when pickers don't get garbage collected
       explorer = false, -- show explorer debug info
-      files = false,  -- show file debug info
-      grep = false,   -- show file debug info
-      proc = false,   -- show proc debug info
+      files = false,    -- show file debug info
+      grep = false,     -- show file debug info
+      proc = false,     -- show proc debug info
       extmarks = false, -- show extmarks errors
     },
   },
@@ -352,31 +352,32 @@ Snacks.setup(opts)
 -- Use Snacks' keymap helper (nice defaults + integrates with Snacks)
 local map = Snacks.keymap.set
 
+-------
+-- f is for project wide
+-- g is for git
+-- s is for other
+-------
+
 -- Top Pickers & Explorer
 map("n", "<leader><space>", function() Snacks.picker.smart() end, { desc = "Smart Find Files" })
 map("n", "<leader>fg", function() Snacks.picker.grep() end, { desc = "Grep" })
 map("n", "<leader>f:", function() Snacks.picker.command_history() end, { desc = "Command History" })
 map("n", "<leader>fn", function() Snacks.picker.notifications() end, { desc = "Notification History" })
-map("n", "<leader>fe", function() Snacks.explorer() end, { desc = "File Explorer" })
 
 -- find
 map("n", "<leader>fb", function() Snacks.picker.buffers() end, { desc = "Buffers" })
-map("n", "<leader>fc", function()
+map("n", "<leader>fv", function()
   Snacks.picker.files({ cwd = vim.fn.stdpath("config") })
-end, { desc = "Find Config File" })
+end, { desc = "Find Vim Config File" })
 map("n", "<leader>ff", function() Snacks.picker.files() end, { desc = "Find Files" })
-map("n", "<leader>gf", function() Snacks.picker.git_files() end, { desc = "Find Git Files" })
 map("n", "<leader>fp", function() Snacks.picker.projects() end, { desc = "Projects" })
 map("n", "<leader>fo", function() Snacks.picker.recent() end, { desc = "Old" })
 
 -- git
+map("n", "<leader>gf", function() Snacks.picker.git_files() end, { desc = "Find Git Files" })
 map("n", "<leader>gb", function() Snacks.picker.git_branches() end, { desc = "Git Branches" })
-map("n", "<leader>gl", function() Snacks.picker.git_log() end, { desc = "Git Log" })
-map("n", "<leader>gL", function() Snacks.picker.git_log_line() end, { desc = "Git Log Line" })
-map("n", "<leader>gs", function() Snacks.picker.git_status() end, { desc = "Git Status" })
 map("n", "<leader>gS", function() Snacks.picker.git_stash() end, { desc = "Git Stash" })
 map("n", "<leader>gd", function() Snacks.picker.git_diff() end, { desc = "Git Diff (Hunks)" })
-map("n", "<leader>gf", function() Snacks.picker.git_log_file() end, { desc = "Git Log File" })
 
 -- gh
 map("n", "<leader>gi", function() Snacks.picker.gh_issue() end, { desc = "GitHub Issues (open)" })
@@ -388,34 +389,26 @@ map("n", "<leader>gP", function()
   Snacks.picker.gh_pr({ state = "all" })
 end, { desc = "GitHub Pull Requests (all)" })
 
--- Grep
--- NOTE: you had <leader>sb twice originally; keeping only one mapping here.
-map("n", "<leader>sb", function() Snacks.picker.lines() end, { desc = "Buffer Lines" })
-map("n", "<leader>sB", function() Snacks.picker.grep_buffers() end, { desc = "Grep Open Buffers" })
-map("n", "<leader>sg", function() Snacks.picker.grep() end, { desc = "Grep" })
-map({ "n", "x" }, "<leader>sw", function() Snacks.picker.grep_word() end, { desc = "Visual selection or word" })
-
 -- search
-map("n", '<leader>s"', function() Snacks.picker.registers() end, { desc = "Registers" })
-map("n", "<leader>s/", function() Snacks.picker.search_history() end, { desc = "Search History" })
-map("n", "<leader>sa", function() Snacks.picker.autocmds() end, { desc = "Autocmds" })
-map("n", "<leader>sc", function() Snacks.picker.command_history() end, { desc = "Command History" })
-map("n", "<leader>sC", function() Snacks.picker.commands() end, { desc = "Commands" })
-map("n", "<leader>sd", function() Snacks.picker.diagnostics() end, { desc = "Diagnostics" })
-map("n", "<leader>sD", function() Snacks.picker.diagnostics_buffer() end, { desc = "Buffer Diagnostics" })
-map("n", "<leader>sh", function() Snacks.picker.help() end, { desc = "Help Pages" })
-map("n", "<leader>sH", function() Snacks.picker.highlights() end, { desc = "Highlights" })
-map("n", "<leader>si", function() Snacks.picker.icons() end, { desc = "Icons" })
-map("n", "<leader>sj", function() Snacks.picker.jumps() end, { desc = "Jumps" })
-map("n", "<leader>sk", function() Snacks.picker.keymaps() end, { desc = "Keymaps" })
-map("n", "<leader>sl", function() Snacks.picker.loclist() end, { desc = "Location List" })
-map("n", "<leader>sm", function() Snacks.picker.marks() end, { desc = "Marks" })
-map("n", "<leader>sM", function() Snacks.picker.man() end, { desc = "Man Pages" })
-map("n", "<leader>sp", function() Snacks.picker.lazy() end, { desc = "Search for Plugin Spec" })
-map("n", "<leader>sq", function() Snacks.picker.qflist() end, { desc = "Quickfix List" })
-map("n", "<leader>sR", function() Snacks.picker.resume() end, { desc = "Resume" })
-map("n", "<leader>su", function() Snacks.picker.undo() end, { desc = "Undo History" })
-map("n", "<leader>uC", function() Snacks.picker.colorschemes() end, { desc = "Colorschemes" })
+map("n", '<leader>f"', function() Snacks.picker.registers() end, { desc = "Registers" })
+map("n", "<leader>f/", function() Snacks.picker.search_history() end, { desc = "Search History" })
+map("n", "<leader>fa", function() Snacks.picker.autocmds() end, { desc = "Autocmds" })
+map("n", "<leader>fc", function() Snacks.picker.commands() end, { desc = "Commands" })
+map("n", "<leader>fd", function() Snacks.picker.diagnostics() end, { desc = "Diagnostics" })
+map("n", "<leader>fD", function() Snacks.picker.diagnostics_buffer() end, { desc = "Buffer Diagnostics" })
+map("n", "<leader>fh", function() Snacks.picker.help() end, { desc = "Help Pages" })
+map("n", "<leader>fH", function() Snacks.picker.highlights() end, { desc = "Highlights" })
+map("n", "<leader>fi", function() Snacks.picker.icons() end, { desc = "Icons" })
+map("n", "<leader>fj", function() Snacks.picker.jumps() end, { desc = "Jumps" })
+map("n", "<leader>fk", function() Snacks.picker.keymaps() end, { desc = "Keymaps" })
+map("n", "<leader>fl", function() Snacks.picker.loclist() end, { desc = "Location List" })
+map("n", "<leader>fm", function() Snacks.picker.marks() end, { desc = "Marks" })
+map("n", "<leader>fM", function() Snacks.picker.man() end, { desc = "Man Pages" })
+map("n", "<leader>fp", function() Snacks.picker.lazy() end, { desc = "Search for Plugin Spec" })
+map("n", "<leader>fq", function() Snacks.picker.qflist() end, { desc = "Quickfix List" })
+map("n", "<leader>fR", function() Snacks.picker.resume() end, { desc = "Resume" })
+map("n", "<leader>fu", function() Snacks.picker.undo() end, { desc = "Undo History" })
+map("n", "<leader>fC", function() Snacks.picker.colorschemes() end, { desc = "Colorschemes" })
 
 -- LSP
 map("n", "gd", function() Snacks.picker.lsp_definitions() end, { desc = "Goto Definition" })
@@ -425,5 +418,5 @@ map("n", "gI", function() Snacks.picker.lsp_implementations() end, { desc = "Got
 map("n", "gy", function() Snacks.picker.lsp_type_definitions() end, { desc = "Goto T[y]pe Definition" })
 map("n", "gai", function() Snacks.picker.lsp_incoming_calls() end, { desc = "C[a]lls Incoming" })
 map("n", "gao", function() Snacks.picker.lsp_outgoing_calls() end, { desc = "C[a]lls Outgoing" })
-map("n", "<leader>ss", function() Snacks.picker.lsp_symbols() end, { desc = "LSP Symbols" })
-map("n", "<leader>sS", function() Snacks.picker.lsp_workspace_symbols() end, { desc = "LSP Workspace Symbols" })
+map("n", "<leader>fs", function() Snacks.picker.lsp_symbols() end, { desc = "LSP Symbols" })
+map("n", "<leader>fS", function() Snacks.picker.lsp_workspace_symbols() end, { desc = "LSP Workspace Symbols" })

@@ -27,6 +27,7 @@ local targets_by_os = {
     zshrc   = "~/.zshrc",
     wezterm = "~/.wezterm.lua",
     ghostty = "~/Library/Application Support/com.mitchellh.ghostty/config",
+    aerospace = "~/.config/aerospace/aerospace.toml",
     nvim    = vim.fn.stdpath("config") .. "/init.lua",
     -- glazewm: not on mac
   },
@@ -84,9 +85,5 @@ local function map_rc(lhs, name, desc)
   end
 end
 
-map_rc("<leader>zsh", "zshrc", "Edit zshrc")
-map_rc("<leader>twz", "wezterm", "Edit wezterm config")
-map_rc("<leader>gho", "ghostty", "Edit ghostty config")
 map_rc("<leader>vim", "nvim", "Edit nvim config")
-map_rc("<leader>gwm", "glazewm", "Edit glazewm config")
 
